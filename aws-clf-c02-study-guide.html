@@ -1,0 +1,2013 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AWS CLF-C02 — Service Study Guide</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=IBM+Plex+Mono:wght@400;500&display=swap");
+
+      :root {
+        --bg: #12151a;
+        --surface: #1a1e25;
+        --surface-2: #20252d;
+        --border: #2c323c;
+        --text: #e7e9ee;
+        --text-dim: #9aa1ad;
+        --amber: #e8a33d;
+        --amber-dim: #6b5732;
+        --teal: #5fb4a8;
+        --teal-bg: rgba(95, 180, 168, 0.1);
+        --green: #5fb489;
+        --green-bg: rgba(95, 180, 137, 0.12);
+        --red: #d97575;
+        --red-bg: rgba(217, 117, 117, 0.12);
+        --mono: "IBM Plex Mono", monospace;
+        --serif: "Newsreader", serif;
+        --sans: "Space Grotesk", sans-serif;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--serif);
+        min-height: 100vh;
+        line-height: 1.5;
+      }
+      ::selection {
+        background: var(--amber-dim);
+        color: var(--text);
+      }
+
+      .app {
+        max-width: 760px;
+        margin: 0 auto;
+        padding: 32px 20px 80px;
+        min-height: 100vh;
+      }
+
+      .masthead {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 16px;
+        margin-bottom: 24px;
+      }
+      .masthead .brand {
+        font-family: var(--sans);
+        font-weight: 700;
+        font-size: 18px;
+        letter-spacing: -0.01em;
+      }
+      .masthead .brand span {
+        color: var(--teal);
+      }
+      .masthead .tag {
+        font-family: var(--mono);
+        font-size: 11px;
+        color: var(--text-dim);
+      }
+
+      .hero h1 {
+        font-family: var(--sans);
+        font-size: 30px;
+        font-weight: 600;
+        line-height: 1.2;
+        margin: 4px 0 10px;
+        letter-spacing: -0.01em;
+      }
+      .hero p.lede {
+        font-size: 17px;
+        color: var(--text-dim);
+        max-width: 56ch;
+        margin: 0 0 24px;
+      }
+
+      /* Tabs */
+      .tabs {
+        display: flex;
+        gap: 6px;
+        margin-bottom: 26px;
+        border-bottom: 1px solid var(--border);
+      }
+      .tab-btn {
+        font-family: var(--sans);
+        background: transparent;
+        border: none;
+        border-bottom: 2px solid transparent;
+        color: var(--text-dim);
+        padding: 10px 4px;
+        margin-right: 22px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+      }
+      .tab-btn.active {
+        color: var(--teal);
+        border-bottom-color: var(--teal);
+      }
+
+      .view {
+        display: none;
+      }
+      .view.active {
+        display: block;
+      }
+
+      /* Search + filter */
+      .search-row {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 18px;
+      }
+      .search-row input[type="text"] {
+        flex: 1;
+        font-family: var(--sans);
+        background: var(--surface);
+        border: 1px solid var(--border);
+        color: var(--text);
+        padding: 11px 14px;
+        border-radius: 4px;
+        font-size: 14px;
+      }
+      .search-row input[type="text"]:focus {
+        outline: none;
+        border-color: var(--teal);
+      }
+
+      .cat-filter {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-bottom: 22px;
+      }
+      .cat-pill {
+        font-family: var(--mono);
+        font-size: 11px;
+        background: var(--surface-2);
+        border: 1px solid var(--border);
+        color: var(--text-dim);
+        padding: 5px 10px;
+        border-radius: 20px;
+        cursor: pointer;
+      }
+      .cat-pill.active {
+        border-color: var(--teal);
+        color: var(--teal);
+      }
+
+      /* Service cards */
+      .cat-group {
+        margin-bottom: 30px;
+      }
+      .cat-group h2 {
+        font-family: var(--sans);
+        font-size: 13px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--amber);
+        margin: 0 0 12px;
+        padding-bottom: 6px;
+        border-bottom: 1px solid var(--border);
+      }
+      .card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 4px;
+        padding: 16px 18px;
+        margin-bottom: 10px;
+      }
+      .card .name {
+        font-family: var(--sans);
+        font-weight: 600;
+        font-size: 15.5px;
+        margin-bottom: 4px;
+      }
+      .card .desc {
+        font-size: 14.5px;
+        color: var(--text-dim);
+        margin-bottom: 10px;
+      }
+      .card .trick {
+        display: flex;
+        gap: 10px;
+        background: var(--teal-bg);
+        border-left: 2px solid var(--teal);
+        padding: 10px 12px;
+        border-radius: 3px;
+        font-size: 14px;
+      }
+      .card .trick .icon {
+        font-family: var(--mono);
+        color: var(--teal);
+        font-size: 11px;
+        flex-shrink: 0;
+        padding-top: 2px;
+      }
+
+      .concept-block {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 4px;
+        padding: 18px 20px;
+        margin-bottom: 18px;
+      }
+      .concept-block h3 {
+        font-family: var(--sans);
+        font-size: 16px;
+        margin: 0 0 10px;
+      }
+      .concept-block .trick {
+        display: flex;
+        gap: 10px;
+        background: var(--teal-bg);
+        border-left: 2px solid var(--teal);
+        padding: 10px 12px;
+        border-radius: 3px;
+        font-size: 14px;
+        margin-bottom: 14px;
+      }
+      .concept-block .trick .icon {
+        font-family: var(--mono);
+        color: var(--teal);
+        font-size: 11px;
+        flex-shrink: 0;
+        padding-top: 2px;
+      }
+      .concept-item {
+        margin-bottom: 8px;
+        font-size: 14.5px;
+      }
+      .concept-item b {
+        font-family: var(--sans);
+        font-weight: 600;
+      }
+
+      /* Quiz shared styles */
+      .panel {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 4px;
+        padding: 24px;
+        margin-bottom: 20px;
+      }
+      .panel h2 {
+        font-family: var(--sans);
+        font-size: 13px;
+        font-weight: 600;
+        margin: 0 0 16px;
+        color: var(--text-dim);
+      }
+      .option-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin-bottom: 8px;
+      }
+      @media (max-width: 480px) {
+        .option-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+      .lin {
+        text-decoration: none;
+      }
+      .choice-btn {
+        font-family: var(--sans);
+        background: var(--surface-2);
+        border: 1px solid var(--border);
+        color: var(--text);
+        padding: 12px 14px;
+        border-radius: 4px;
+        cursor: pointer;
+        text-align: left;
+        font-size: 13.5px;
+      }
+      .choice-btn.selected {
+        border-color: var(--teal);
+        background: var(--teal-bg);
+        color: var(--teal);
+      }
+
+      .btn-primary {
+        font-family: var(--sans);
+        background: var(--teal);
+        color: #0d1512;
+        border: none;
+        padding: 15px 26px;
+        font-size: 15px;
+        font-weight: 600;
+        border-radius: 4px;
+        cursor: pointer;
+        width: 100%;
+      }
+      .btn-primary:hover {
+        filter: brightness(1.08);
+      }
+      .btn-secondary {
+        font-family: var(--sans);
+        background: transparent;
+        color: var(--text-dim);
+        border: 1px solid var(--border);
+        padding: 11px 18px;
+        font-size: 13px;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      .quiz-header {
+        display: flex;
+        justify-content: space-between;
+        font-family: var(--mono);
+        font-size: 12px;
+        color: var(--text-dim);
+        margin-bottom: 16px;
+      }
+      .quiz-header .score {
+        color: var(--teal);
+      }
+      .progress-track {
+        height: 3px;
+        background: var(--border);
+        border-radius: 2px;
+        margin-bottom: 26px;
+        overflow: hidden;
+      }
+      .progress-fill {
+        height: 100%;
+        background: var(--teal);
+        transition: width 0.2s ease;
+      }
+
+      .q-tagline {
+        font-family: var(--mono);
+        font-size: 11px;
+        color: var(--teal);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin-bottom: 10px;
+      }
+      .q-text {
+        font-size: 19px;
+        line-height: 1.4;
+        margin: 0 0 22px;
+      }
+
+      .options {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-bottom: 22px;
+      }
+      .opt {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 4px;
+        padding: 13px 16px;
+        cursor: pointer;
+        font-size: 15px;
+      }
+      .opt:hover {
+        border-color: var(--amber-dim);
+      }
+      .opt.marked {
+        border-color: var(--amber);
+        background: rgba(232, 163, 61, 0.08);
+      }
+      .opt.correct {
+        border-color: var(--green);
+        background: var(--green-bg);
+      }
+      .opt.incorrect {
+        border-color: var(--red);
+        background: var(--red-bg);
+      }
+      .opt.disabled {
+        cursor: default;
+      }
+
+      .feedback {
+        font-family: var(--sans);
+        font-size: 14px;
+        padding: 14px 16px;
+        border-radius: 4px;
+        margin-bottom: 20px;
+        display: none;
+      }
+      .feedback.show {
+        display: block;
+      }
+      .feedback.right {
+        background: var(--green-bg);
+        color: var(--green);
+      }
+      .feedback.wrong {
+        background: var(--red-bg);
+        color: var(--red);
+      }
+      .feedback .trick-note {
+        display: block;
+        margin-top: 8px;
+        color: var(--text-dim);
+        font-family: var(--serif);
+        font-size: 14px;
+      }
+
+      .nav-row {
+        display: flex;
+        gap: 10px;
+        justify-content: space-between;
+      }
+      .nav-row .btn-primary {
+        flex: 1;
+      }
+
+      .result-hero {
+        text-align: center;
+        padding: 34px 0 26px;
+      }
+      .result-hero .big-score {
+        font-family: var(--sans);
+        font-size: 58px;
+        font-weight: 700;
+        color: var(--teal);
+        line-height: 1;
+      }
+      .result-hero .of {
+        font-family: var(--mono);
+        color: var(--text-dim);
+        font-size: 14px;
+        margin-top: 8px;
+      }
+      .result-hero h2 {
+        font-family: var(--sans);
+        font-weight: 500;
+        font-size: 19px;
+        margin: 16px 0 0;
+      }
+
+      .review-item {
+        border-bottom: 1px solid var(--border);
+        padding: 14px 0;
+      }
+      .review-item:last-child {
+        border-bottom: none;
+      }
+      .review-item .rq {
+        font-size: 14.5px;
+        margin-bottom: 6px;
+      }
+      .review-item .ra {
+        font-family: var(--mono);
+        font-size: 12px;
+      }
+      .review-item .ra .yours {
+        color: var(--red);
+      }
+      .review-item .ra .right {
+        color: var(--green);
+      }
+
+      .hidden {
+        display: none !important;
+      }
+      footer.note {
+        text-align: center;
+        color: var(--text-dim);
+        font-family: var(--mono);
+        font-size: 11px;
+        margin-top: 40px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app">
+      <div class="masthead">
+        <div class="brand">CLF<span>·</span>C02 Study</div>
+        <button class="choice-btn" data-len="10">
+          <a class="lin" href="aws-clf-c02-quiz.html">Study</a>
+        </button>
+        <div class="tag" id="modeTag">reference guide</div>
+      </div>
+
+      <div class="hero">
+        <h1>Service memory tricks</h1>
+        <p class="lede">
+          Every service from the official AWS CLF-C02 Reference Guide, grouped
+          by category, with a one-line mnemonic to make the name and its job
+          stick — plus a quiz to test the recall.
+        </p>
+      </div>
+
+      <div class="tabs">
+        <button class="tab-btn active" data-view="study">Study guide</button>
+        <button class="tab-btn" data-view="concepts">Core concepts</button>
+        <button class="tab-btn" data-view="quiz">Quiz</button>
+      </div>
+
+      <!-- STUDY VIEW -->
+      <div class="view active" id="view-study">
+        <div class="search-row">
+          <input
+            type="text"
+            id="searchBox"
+            placeholder="Search a service or keyword…"
+          />
+        </div>
+        <div class="cat-filter" id="catFilter"></div>
+        <div id="studyList"></div>
+      </div>
+
+      <!-- CONCEPTS VIEW -->
+      <div class="view" id="view-concepts">
+        <div id="conceptsList"></div>
+      </div>
+
+      <!-- QUIZ VIEW -->
+      <div class="view" id="view-quiz">
+        <div id="quiz-start">
+          <div class="panel">
+            <h2>SESSION LENGTH</h2>
+            <div class="option-grid" id="lengthGrid">
+              <button class="choice-btn" data-len="10">10 questions</button>
+              <button class="choice-btn" data-len="20">20 questions</button>
+              <button class="choice-btn" data-len="40">40 questions</button>
+              <button class="choice-btn" data-len="all">All services</button>
+            </div>
+          </div>
+          <button class="btn-primary" id="startQuizBtn">Start quiz</button>
+        </div>
+
+        <div id="quiz-play" class="hidden">
+          <div class="quiz-header">
+            <span id="qPosition">Question 1 / 10</span>
+            <span class="score">Score: <span id="liveScore">0</span></span>
+          </div>
+          <div class="progress-track">
+            <div
+              class="progress-fill"
+              id="progressFill"
+              style="width: 0%"
+            ></div>
+          </div>
+
+          <div class="q-tagline" id="qCategory">Compute</div>
+          <p class="q-text" id="qText"></p>
+          <div class="options" id="optionsWrap"></div>
+          <div class="feedback" id="feedbackBox"></div>
+
+          <div class="nav-row">
+            <button class="btn-secondary" id="quitQuizBtn">Exit</button>
+            <button class="btn-primary" id="submitQuizBtn">
+              Submit answer
+            </button>
+          </div>
+        </div>
+
+        <div id="quiz-end" class="hidden">
+          <div class="result-hero">
+            <div class="big-score" id="finalPct">0%</div>
+            <div class="of" id="finalFrac">0 / 0 correct</div>
+            <h2 id="finalVerdict"></h2>
+          </div>
+          <div class="panel" id="reviewPanel">
+            <h2>MISSED SERVICES</h2>
+            <div id="reviewList"></div>
+          </div>
+          <button class="btn-primary" id="restartQuizBtn">
+            Start another session
+          </button>
+        </div>
+      </div>
+
+      <footer class="note">
+        Source: AWS Certified Cloud Practitioner (CLF-C02) Reference Guide
+        v1.1.1 · memory tricks are original, for personal study only
+      </footer>
+    </div>
+
+    <script id="services-data" type="application/json">
+      [
+        {
+          "id": 0,
+          "category": "Analytics",
+          "name": "Amazon Athena",
+          "desc": "Analyze data directly in Amazon S3 by using standard SQL.",
+          "trick": "Athena, the Greek goddess of wisdom, queries S3 straight from the shelf — no loading, no servers, just SQL wisdom."
+        },
+        {
+          "id": 1,
+          "category": "Analytics",
+          "name": "AWS Data Exchange",
+          "desc": "Find, subscribe to, and use third-party data in the cloud.",
+          "trick": "Think 'stock exchange,' but you're trading datasets instead of shares."
+        },
+        {
+          "id": 2,
+          "category": "Analytics",
+          "name": "Amazon EMR",
+          "desc": "Run big data frameworks, such as Apache Hadoop and Apache Spark, to process and analyze vast amounts of data.",
+          "trick": "EMR = Elastic MapReduce. 'MapReduce' is the clue — this is the home for Hadoop/Spark big-data clusters."
+        },
+        {
+          "id": 3,
+          "category": "Analytics",
+          "name": "AWS Glue",
+          "desc": "Discover, prepare, move, and integrate data from multiple sources.",
+          "trick": "Glue sticks scattered data sources together — the classic serverless ETL service."
+        },
+        {
+          "id": 4,
+          "category": "Analytics",
+          "name": "Amazon Kinesis",
+          "desc": "Collect, process, and analyze video streams and data streams in near real time.",
+          "trick": "Kinesis sounds like 'kinetic' — motion — picture data flowing in a live stream, not sitting still."
+        },
+        {
+          "id": 5,
+          "category": "Analytics",
+          "name": "Amazon MSK",
+          "desc": "Build and run applications that use Apache Kafka to process streaming data.",
+          "trick": "MSK = Managed Streaming for Kafka. If you hear 'Kafka' on the exam, MSK is the managed-service answer."
+        },
+        {
+          "id": 6,
+          "category": "Analytics",
+          "name": "Amazon OpenSearch Service",
+          "desc": "Deploy, operate, and scale OpenSearch clusters in the cloud.",
+          "trick": "OpenSearch is the open-source fork of Elasticsearch — think 'search bar + log analytics dashboard.'"
+        },
+        {
+          "id": 7,
+          "category": "Analytics",
+          "name": "Amazon QuickSight",
+          "desc": "Business intelligence service that provides insights in a single data dashboard.",
+          "trick": "QuickSight = a quick, visual 'sight' into your numbers — AWS's BI dashboard tool."
+        },
+        {
+          "id": 8,
+          "category": "Application Integration",
+          "name": "Amazon EventBridge",
+          "desc": "Use events to connect application components together and build scalable event-driven applications.",
+          "trick": "A 'bridge' between events — when something happens in one app, EventBridge routes the news to another."
+        },
+        {
+          "id": 9,
+          "category": "Application Integration",
+          "name": "Amazon SNS",
+          "desc": "Provides message delivery from publishers to subscribers.",
+          "trick": "SNS = Simple Notification Service. One message broadcast out to many subscribers, like a megaphone (pub/sub, fan-out)."
+        },
+        {
+          "id": 10,
+          "category": "Application Integration",
+          "name": "Amazon SQS",
+          "desc": "Provides a queue to integrate and decouple distributed software systems and components.",
+          "trick": "SQS = a literal queue/line. Messages wait their turn so two systems don't have to talk directly (decoupling)."
+        },
+        {
+          "id": 11,
+          "category": "Application Integration",
+          "name": "AWS Step Functions",
+          "desc": "Integrate with Lambda functions and view application workflows as a series of event-driven steps.",
+          "trick": "'Step' is the giveaway — a visual flowchart of steps (a state machine) stitching Lambda calls together."
+        },
+        {
+          "id": 12,
+          "category": "Business Applications",
+          "name": "Amazon Connect",
+          "desc": "Omnichannel cloud contact center.",
+          "trick": "Connect = connecting a customer's call/chat to an agent — a cloud call center."
+        },
+        {
+          "id": 13,
+          "category": "Business Applications",
+          "name": "Amazon SES",
+          "desc": "Send and receive emails through existing email addresses and domains.",
+          "trick": "SES = Simple Email Service. Just remember: S-E-S = Send Email Service."
+        },
+        {
+          "id": 14,
+          "category": "Cloud Financial Management",
+          "name": "AWS Billing Conductor",
+          "desc": "Custom billing service that can support showback and chargeback workflows of AWS Solution Providers and Enterprise customers.",
+          "trick": "A 'conductor' leads an orchestra of accounts — used by resellers/enterprises to custom-bill each 'section.'"
+        },
+        {
+          "id": 15,
+          "category": "Cloud Financial Management",
+          "name": "AWS Budgets",
+          "desc": "Set a monthly cost budget with alerts for actual spend or forecasted spend.",
+          "trick": "Exactly what it sounds like — your household budget app, but for AWS spend, with alerts."
+        },
+        {
+          "id": 16,
+          "category": "Cloud Financial Management",
+          "name": "AWS Cost and Usage Report",
+          "desc": "Contains the most comprehensive set of cost and usage data available.",
+          "trick": "CUR = the most detailed, 'no line item left behind' bill — the raw data warehouse of your spend."
+        },
+        {
+          "id": 17,
+          "category": "Cloud Financial Management",
+          "name": "AWS Cost Explorer",
+          "desc": "Visualize cost and usage over time, including the past 12 months and a forecast of the next 12 months.",
+          "trick": "'Explorer' = exploring trends visually — charts of the last 12 months and a forecast of the next 12."
+        },
+        {
+          "id": 18,
+          "category": "Cloud Financial Management",
+          "name": "AWS Marketplace",
+          "desc": "Curated digital catalog of third-party software, data, and services.",
+          "trick": "Literally a marketplace/app store for third-party AWS-compatible software."
+        },
+        {
+          "id": 19,
+          "category": "Compute",
+          "name": "AWS Batch",
+          "desc": "Run batch computing workloads.",
+          "trick": "Batch = baking a batch of cookies overnight — queue up jobs, let them run, no babysitting."
+        },
+        {
+          "id": 20,
+          "category": "Compute",
+          "name": "Amazon EC2",
+          "desc": "Provides scalable computing capacity in the AWS Cloud.",
+          "trick": "EC2 = Elastic Compute Cloud — the classic virtual server, the 'default' compute answer."
+        },
+        {
+          "id": 21,
+          "category": "Compute",
+          "name": "AWS Elastic Beanstalk",
+          "desc": "Deploy and manage applications without knowledge of the underlying infrastructure.",
+          "trick": "Plant the beanstalk (upload your code) and it grows the infrastructure for you automatically."
+        },
+        {
+          "id": 22,
+          "category": "Compute",
+          "name": "AWS Lambda",
+          "desc": "Run code without the need to provision or manage servers.",
+          "trick": "Lambda (λ) is the math symbol for a function — run a function, no server to manage."
+        },
+        {
+          "id": 23,
+          "category": "Compute",
+          "name": "Amazon Lightsail",
+          "desc": "Launch projects quickly from a simple management interface.",
+          "trick": "Lightsail = a small, easy-to-hoist sail — the beginner-friendly, all-in-one VPS for simple projects."
+        },
+        {
+          "id": 24,
+          "category": "Compute",
+          "name": "AWS Outposts",
+          "desc": "Extends AWS infrastructure, services, APIs, and tools to customer premises.",
+          "trick": "An 'outpost' is a base planted on foreign land — literally AWS hardware shipped into your own data center."
+        },
+        {
+          "id": 25,
+          "category": "Containers",
+          "name": "Amazon ECR",
+          "desc": "Container image registry that is secure, scalable, and reliable.",
+          "trick": "ECR = Elastic Container Registry. Think 'Docker Hub, but AWS's private version' for storing images."
+        },
+        {
+          "id": 26,
+          "category": "Containers",
+          "name": "Amazon ECS",
+          "desc": "Deploy, manage, and scale containerized applications.",
+          "trick": "ECS = Elastic Container Service — AWS's own native container orchestrator (no Kubernetes needed)."
+        },
+        {
+          "id": 27,
+          "category": "Containers",
+          "name": "Amazon EKS",
+          "desc": "Run Kubernetes without the need to install, operate, or maintain the Kubernetes control plane or nodes.",
+          "trick": "The 'K' in EKS = Kubernetes. If the question says Kubernetes, the answer is EKS."
+        },
+        {
+          "id": 28,
+          "category": "Containers",
+          "name": "AWS Fargate",
+          "desc": "Works with Amazon ECS to run containers without the need to manage servers or EC2 instances.",
+          "trick": "Fargate lets containers run 'far' away from any server you have to manage — serverless containers."
+        },
+        {
+          "id": 29,
+          "category": "Customer Engagement",
+          "name": "AWS Activate for Startups",
+          "desc": "Provides resources to help startups build and grow on AWS.",
+          "trick": "'Activate' = jumpstart a startup — credits and resources to get new companies going."
+        },
+        {
+          "id": 30,
+          "category": "Customer Engagement",
+          "name": "AWS IQ",
+          "desc": "Connects users to AWS Certified experts for help with AWS projects.",
+          "trick": "IQ = hire some brainpower — connect with independent AWS-certified experts for hands-on help."
+        },
+        {
+          "id": 31,
+          "category": "Customer Engagement",
+          "name": "AWS Managed Services (AMS)",
+          "desc": "Provides ongoing management for a user's AWS infrastructure.",
+          "trick": "AMS is basically renting an outsourced AWS ops/IT department to run your environment for you."
+        },
+        {
+          "id": 32,
+          "category": "Database",
+          "name": "Amazon Aurora",
+          "desc": "Database engine that is compatible with MySQL and PostgreSQL.",
+          "trick": "Aurora = the dawn — AWS's own high-performance relational engine, drop-in compatible with MySQL/PostgreSQL."
+        },
+        {
+          "id": 33,
+          "category": "Database",
+          "name": "Amazon DynamoDB",
+          "desc": "NoSQL database service with fast and predictable performance and seamless scalability; schemaless.",
+          "trick": "'Dynamo' = dynamic and schemaless — the go-to key-value NoSQL database, blazing fast at any scale."
+        },
+        {
+          "id": 34,
+          "category": "Database",
+          "name": "Amazon MemoryDB for Redis",
+          "desc": "Durable, in-memory database service that delivers ultra-fast performance.",
+          "trick": "'Memory' is right there in the name — an in-memory, Redis-compatible database built for speed."
+        },
+        {
+          "id": 35,
+          "category": "Database",
+          "name": "Amazon Neptune",
+          "desc": "Graph database service for highly connected datasets.",
+          "trick": "Neptune's moons are famously 'interconnected' in trivia — think connections, i.e., a graph database."
+        },
+        {
+          "id": 36,
+          "category": "Database",
+          "name": "Amazon RDS",
+          "desc": "Set up, operate, and scale a relational database in the cloud.",
+          "trick": "RDS = Relational Database Service — the managed umbrella for MySQL, PostgreSQL, SQL Server, etc."
+        },
+        {
+          "id": 37,
+          "category": "Database",
+          "name": "Amazon Redshift",
+          "desc": "Petabyte-scale data warehouse with automatically provisioned resources and intelligent scaling.",
+          "trick": "'Red-shift' is an astronomy term for objects moving away at massive scale — think huge-scale data warehousing."
+        },
+        {
+          "id": 38,
+          "category": "Developer Tools",
+          "name": "AWS AppConfig",
+          "desc": "Create, manage, and quickly deploy application configurations.",
+          "trick": "Config = configuration — push app settings/feature flags without redeploying code."
+        },
+        {
+          "id": 39,
+          "category": "Developer Tools",
+          "name": "AWS CLI",
+          "desc": "Interact with AWS services through commands in the command-line shell.",
+          "trick": "CLI = Command Line Interface, literally typing 'aws ...' commands in a terminal."
+        },
+        {
+          "id": 40,
+          "category": "Developer Tools",
+          "name": "AWS Cloud9",
+          "desc": "An integrated development environment (IDE) with a built-in terminal that supports several programming languages.",
+          "trick": "Cloud9 = a full IDE that lives in your browser — code from any machine, any time."
+        },
+        {
+          "id": 41,
+          "category": "Developer Tools",
+          "name": "AWS CloudShell",
+          "desc": "A browser-based, pre-authenticated shell that users can launch directly from the console.",
+          "trick": "CloudShell is a terminal that's already logged in — one click from the console, no setup."
+        },
+        {
+          "id": 42,
+          "category": "Developer Tools",
+          "name": "AWS CodeArtifact",
+          "desc": "Artifact repository that helps companies store and share software packages for application development.",
+          "trick": "Artifact = software packages — a private company shelf for npm/Maven/PyPI-style packages."
+        },
+        {
+          "id": 43,
+          "category": "Developer Tools",
+          "name": "AWS CodeBuild",
+          "desc": "Compiles source code, runs unit tests, and produces artifacts that are ready to deploy.",
+          "trick": "Build = the 'compile and test' stage of CI/CD."
+        },
+        {
+          "id": 44,
+          "category": "Developer Tools",
+          "name": "AWS CodeCommit",
+          "desc": "Host private Git repositories, store and manage assets.",
+          "trick": "Commit = the Git term — this is AWS's private Git repo hosting."
+        },
+        {
+          "id": 45,
+          "category": "Developer Tools",
+          "name": "AWS CodeDeploy",
+          "desc": "Automate application deployments to on-premises instances or select AWS resources.",
+          "trick": "Deploy = the 'ship it to servers' stage of CI/CD."
+        },
+        {
+          "id": 46,
+          "category": "Developer Tools",
+          "name": "AWS CodePipeline",
+          "desc": "Model, visualize, and automate the steps to release software with continuous delivery.",
+          "trick": "Pipeline = the assembly line connecting Build → Test → Deploy into one automated CI/CD flow."
+        },
+        {
+          "id": 47,
+          "category": "Developer Tools",
+          "name": "AWS CodeStar",
+          "desc": "Create and manage software development projects by integrating AWS services in the project development toolchain.",
+          "trick": "Star = a single dashboard 'north star' view over your whole dev toolchain."
+        },
+        {
+          "id": 48,
+          "category": "Developer Tools",
+          "name": "AWS SDK",
+          "desc": "Use software development kits to develop applications in your preferred programming language.",
+          "trick": "SDK = the code libraries you `import` to call AWS from Python, Java, JS, etc."
+        },
+        {
+          "id": 49,
+          "category": "Developer Tools",
+          "name": "AWS X-Ray",
+          "desc": "Collects data about application requests and provides tools to view, filter, and gain insights into the data.",
+          "trick": "X-Ray sees inside your app requests, like a medical X-ray — perfect for tracing why a request was slow."
+        },
+        {
+          "id": 50,
+          "category": "End-User Computing",
+          "name": "Amazon AppStream 2.0",
+          "desc": "Application streaming service that provides users with instant access to desktop applications from anywhere.",
+          "trick": "Stream a single app the way you'd stream a movie — instant access, nothing installed locally."
+        },
+        {
+          "id": 51,
+          "category": "End-User Computing",
+          "name": "Amazon WorkSpaces",
+          "desc": "Provision virtual, cloud-based desktops without the need to deploy hardware or install complex software.",
+          "trick": "Your whole desktop, delivered virtually — WorkSpaces = a cloud PC."
+        },
+        {
+          "id": 52,
+          "category": "End-User Computing",
+          "name": "Amazon WorkSpaces Web",
+          "desc": "Facilitates secure browser access to internal websites and SaaS applications.",
+          "trick": "The 'Web' version of WorkSpaces — just a secure browser tab into internal sites, not a full desktop."
+        },
+        {
+          "id": 53,
+          "category": "Frontend Web and Mobile",
+          "name": "AWS Amplify",
+          "desc": "Set of purpose-built tools and features to build full-stack applications.",
+          "trick": "Amplify 'amplifies' a frontend developer into a full-stack one — quick backend + hosting for web/mobile apps."
+        },
+        {
+          "id": 54,
+          "category": "Frontend Web and Mobile",
+          "name": "AWS AppSync",
+          "desc": "Connect applications and services to data and events with GraphQL and pub/sub APIs.",
+          "trick": "'Sync' = keeping data in sync in real time — AWS's managed GraphQL API service."
+        },
+        {
+          "id": 55,
+          "category": "Frontend Web and Mobile",
+          "name": "AWS Device Farm",
+          "desc": "App testing for Android, iOS, and web apps.",
+          "trick": "A literal 'farm' of real physical phones and browsers you can test your app on."
+        },
+        {
+          "id": 56,
+          "category": "Internet of Things (IoT)",
+          "name": "AWS IoT Core",
+          "desc": "Connect and process messages between IoT devices and IoT services.",
+          "trick": "Core = the central hub where every IoT device checks in and sends its messages."
+        },
+        {
+          "id": 57,
+          "category": "Internet of Things (IoT)",
+          "name": "AWS IoT Greengrass",
+          "desc": "Build, deploy, and manage IoT edge runtime applications on devices.",
+          "trick": "Greengrass = grass at the 'edge' of the lawn — edge computing, so devices keep working even offline."
+        },
+        {
+          "id": 58,
+          "category": "Machine Learning (ML)",
+          "name": "Amazon Comprehend",
+          "desc": "Uses natural language processing (NLP) to extract insights from documents.",
+          "trick": "Comprehend = literally 'to understand' — NLP that reads text and pulls out meaning/sentiment."
+        },
+        {
+          "id": 59,
+          "category": "Machine Learning (ML)",
+          "name": "Amazon Kendra",
+          "desc": "Intelligent search service that uses NLP and ML algorithms.",
+          "trick": "Kendra sounds like a person who 'knows' the right answer — smart, NLP-powered enterprise search."
+        },
+        {
+          "id": 60,
+          "category": "Machine Learning (ML)",
+          "name": "Amazon Lex",
+          "desc": "Build conversational interfaces for applications that use voice and text.",
+          "trick": "Lex is Alexa's little sibling — same tech, used to build your own voice/text chatbots."
+        },
+        {
+          "id": 61,
+          "category": "Machine Learning (ML)",
+          "name": "Amazon Polly",
+          "desc": "Convert text into lifelike speech.",
+          "trick": "Polly the parrot talks — text goes in, spoken audio comes out (text-to-speech)."
+        },
+        {
+          "id": 62,
+          "category": "Machine Learning (ML)",
+          "name": "Amazon Rekognition",
+          "desc": "Identify objects, people, text, scenes, and activities in images and videos.",
+          "trick": "'Recognition' spelled with a K — recognizes faces, objects, and scenes in images/video."
+        },
+        {
+          "id": 63,
+          "category": "Machine Learning (ML)",
+          "name": "Amazon SageMaker",
+          "desc": "Build and train ML models, then deploy the models in a production-ready hosted environment.",
+          "trick": "A sage is a wise builder — SageMaker is the full workbench to build, train, AND deploy ML models."
+        },
+        {
+          "id": 64,
+          "category": "Machine Learning (ML)",
+          "name": "Amazon Textract",
+          "desc": "Automatically extract text, handwriting, and data from scanned documents.",
+          "trick": "'Text' + 'extract' — pulls text and form data out of scanned documents and images."
+        },
+        {
+          "id": 65,
+          "category": "Machine Learning (ML)",
+          "name": "Amazon Transcribe",
+          "desc": "Automatic speech recognition that converts audio to text.",
+          "trick": "Think of a court transcriber typing what's spoken — audio in, text out (speech-to-text)."
+        },
+        {
+          "id": 66,
+          "category": "Machine Learning (ML)",
+          "name": "Amazon Translate",
+          "desc": "Translate unstructured text documents or build applications that work in multiple languages.",
+          "trick": "Does exactly what it says — translates text between languages."
+        },
+        {
+          "id": 67,
+          "category": "Management and Governance",
+          "name": "AWS Auto Scaling",
+          "desc": "Monitors applications to automatically scale resources dynamically by adjusting capacity based on defined thresholds.",
+          "trick": "Scaling = growing or shrinking capacity automatically to match demand."
+        },
+        {
+          "id": 68,
+          "category": "Management and Governance",
+          "name": "AWS CloudFormation",
+          "desc": "Model, set up, and create templates of AWS resources.",
+          "trick": "'Formation' = forming your infrastructure from a written blueprint (Infrastructure as Code)."
+        },
+        {
+          "id": 69,
+          "category": "Management and Governance",
+          "name": "AWS CloudTrail",
+          "desc": "Records actions taken by users in the console, AWS CLI, AWS SDKs, and APIs.",
+          "trick": "A 'trail' is footprints left behind — CloudTrail logs WHO did WHAT (the audit log)."
+        },
+        {
+          "id": 70,
+          "category": "Management and Governance",
+          "name": "Amazon CloudWatch",
+          "desc": "Monitors resources and applications, collects and tracks metrics, has alarms.",
+          "trick": "'Watch' = watching live metrics and setting alarms — the monitoring dashboard, not the audit log."
+        },
+        {
+          "id": 71,
+          "category": "Management and Governance",
+          "name": "AWS Compute Optimizer",
+          "desc": "Analyzes the configuration and utilization metrics of resources, provides optimization recommendations.",
+          "trick": "Optimizer = tells you if you're paying for a bigger instance than you actually use."
+        },
+        {
+          "id": 72,
+          "category": "Management and Governance",
+          "name": "AWS Config",
+          "desc": "Provides a detailed view of AWS resource configuration, changes in configuration, and compliance.",
+          "trick": "Config tracks HOW a resource is set up and whether it stays compliant over time — pair it with CloudTrail's WHO/WHAT."
+        },
+        {
+          "id": 73,
+          "category": "Management and Governance",
+          "name": "AWS Control Tower",
+          "desc": "Set up and govern a multi-account environment.",
+          "trick": "An airport control tower oversees many planes at once — Control Tower oversees many AWS accounts at once."
+        },
+        {
+          "id": 74,
+          "category": "Management and Governance",
+          "name": "AWS Health Dashboard",
+          "desc": "Provides ongoing visibility into resource performance and availability of AWS services and user accounts.",
+          "trick": "Health = a check-up on the health/status of AWS services and your own account."
+        },
+        {
+          "id": 75,
+          "category": "Management and Governance",
+          "name": "AWS Launch Wizard",
+          "desc": "Deploy application and domain-controller solutions to the cloud.",
+          "trick": "A 'wizard' walks you step-by-step through a guided setup — that's exactly this service."
+        },
+        {
+          "id": 76,
+          "category": "Management and Governance",
+          "name": "AWS License Manager",
+          "desc": "Manage software licenses from software vendors centrally across AWS and on-premises environments.",
+          "trick": "A librarian tracking who's borrowed which book — License Manager tracks who's using which software license."
+        },
+        {
+          "id": 77,
+          "category": "Management and Governance",
+          "name": "AWS Management Console",
+          "desc": "Web application used to manage AWS resources.",
+          "trick": "This is simply the AWS website/dashboard itself, the one you click around in."
+        },
+        {
+          "id": 78,
+          "category": "Management and Governance",
+          "name": "AWS Organizations",
+          "desc": "Account management service that can consolidate billing and accounts.",
+          "trick": "'Organize' many separate AWS accounts under one company umbrella with consolidated billing."
+        },
+        {
+          "id": 79,
+          "category": "Management and Governance",
+          "name": "AWS Service Catalog",
+          "desc": "Create and manage catalogs of IT services that are approved for AWS.",
+          "trick": "A catalog = a shopping list of pre-approved products employees are allowed to launch."
+        },
+        {
+          "id": 80,
+          "category": "Management and Governance",
+          "name": "AWS Systems Manager",
+          "desc": "Organize, monitor, and automate management tasks on AWS resources.",
+          "trick": "The ops toolbox — patch servers, run remote commands, store parameters, all from one place."
+        },
+        {
+          "id": 81,
+          "category": "Management and Governance",
+          "name": "AWS Trusted Advisor",
+          "desc": "Inspects a user's AWS environment and makes recommendations based on best practices.",
+          "trick": "Your 'trusted advisor' gives you tips across cost, security, performance, and fault tolerance."
+        },
+        {
+          "id": 82,
+          "category": "Management and Governance",
+          "name": "AWS Well-Architected Tool",
+          "desc": "Provides recommendations to improve workloads based on best practices.",
+          "trick": "A report card that grades your workload against the six Well-Architected pillars."
+        },
+        {
+          "id": 83,
+          "category": "Migration and Transfer",
+          "name": "AWS Application Discovery Service",
+          "desc": "Collects usage and configuration data about on-premises servers and databases to help plan a migration to AWS.",
+          "trick": "'Discovery' = discovering what you already have on-prem, BEFORE you plan the move."
+        },
+        {
+          "id": 84,
+          "category": "Migration and Transfer",
+          "name": "AWS Application Migration Service",
+          "desc": "Automated lift-and-shift (rehost) solution for migrations to AWS.",
+          "trick": "This is the 'just pick it up and move it as-is' (lift-and-shift) mover."
+        },
+        {
+          "id": 85,
+          "category": "Migration and Transfer",
+          "name": "AWS DMS",
+          "desc": "Migrate relational databases, data warehouses, NoSQL databases, and data stores to AWS.",
+          "trick": "DMS = Database Migration Service. If a question mentions moving a DATABASE, think DMS."
+        },
+        {
+          "id": 86,
+          "category": "Migration and Transfer",
+          "name": "AWS Migration Hub",
+          "desc": "A central location to discover existing servers, plan migrations, and track the status of each application migration.",
+          "trick": "Hub = one dashboard tracking the STATUS of every migration project happening at once."
+        },
+        {
+          "id": 87,
+          "category": "Migration and Transfer",
+          "name": "AWS SCT",
+          "desc": "Convert an existing database schema from one database engine to another.",
+          "trick": "SCT = Schema Conversion Tool. Think of it as a translator for database 'languages' (e.g., Oracle → Aurora)."
+        },
+        {
+          "id": 88,
+          "category": "Migration and Transfer",
+          "name": "AWS Snow Family",
+          "desc": "Run operations in remote, non-data center environments, and locations without network connectivity.",
+          "trick": "Snow = a physical device that gets shipped to you, like rolling a giant snowball of data to AWS by truck."
+        },
+        {
+          "id": 89,
+          "category": "Migration and Transfer",
+          "name": "AWS Transfer Family",
+          "desc": "Transfer files in to and out of AWS storage services.",
+          "trick": "The managed SFTP/FTPS/FTP mover for files — 'Transfer' says it all."
+        },
+        {
+          "id": 90,
+          "category": "Networking and Content Delivery",
+          "name": "Amazon API Gateway",
+          "desc": "Create, publish, and monitor REST, HTTP, and WebSocket APIs at any scale.",
+          "trick": "Gateway = the front door your app's API traffic walks through."
+        },
+        {
+          "id": 91,
+          "category": "Networking and Content Delivery",
+          "name": "Amazon CloudFront",
+          "desc": "Speed up distribution of static and dynamic web content to end users through edge locations.",
+          "trick": "It sits 'in front' of your content, cached at edge locations close to users — AWS's CDN."
+        },
+        {
+          "id": 92,
+          "category": "Networking and Content Delivery",
+          "name": "AWS Direct Connect",
+          "desc": "A private dedicated network connection from an on-premises data center to the cloud.",
+          "trick": "'Direct' = a literal dedicated cable to AWS, bypassing the public internet."
+        },
+        {
+          "id": 93,
+          "category": "Networking and Content Delivery",
+          "name": "AWS Global Accelerator",
+          "desc": "Improve availability and performance of applications through a global network of endpoints.",
+          "trick": "Accelerator = speeds up global users' traffic by routing it onto AWS's private backbone network."
+        },
+        {
+          "id": 94,
+          "category": "Networking and Content Delivery",
+          "name": "Amazon Route 53",
+          "desc": "DNS service for domain registration, DNS routing, and health checking.",
+          "trick": "Route 53 = DNS 'routing,' and port 53 is literally the DNS port number."
+        },
+        {
+          "id": 95,
+          "category": "Networking and Content Delivery",
+          "name": "Amazon VPC",
+          "desc": "Launch AWS resources in logically isolated virtual networks.",
+          "trick": "VPC = Virtual Private Cloud — your own fenced-off private section of the AWS network."
+        },
+        {
+          "id": 96,
+          "category": "Networking and Content Delivery",
+          "name": "AWS VPN",
+          "desc": "Establish a secure and private tunnel from on premises to the cloud.",
+          "trick": "VPN = the encrypted tunnel over the public internet, cheaper (but less consistent) than Direct Connect."
+        },
+        {
+          "id": 97,
+          "category": "Security, Identity, and Compliance",
+          "name": "AWS Artifact",
+          "desc": "Download security and compliance documents.",
+          "trick": "Artifact here = the paperwork — compliance reports and agreements you download (not code packages)."
+        },
+        {
+          "id": 98,
+          "category": "Security, Identity, and Compliance",
+          "name": "AWS Audit Manager",
+          "desc": "Continually audit AWS usage to manage risk and to comply with regulations and industry standards.",
+          "trick": "Audit = automates the ongoing paperwork of proving compliance with a standard."
+        },
+        {
+          "id": 99,
+          "category": "Security, Identity, and Compliance",
+          "name": "AWS Certificate Manager (ACM)",
+          "desc": "Creates, stores, and renews public and private SSL/TLS certificates.",
+          "trick": "Certificate Manager literally manages your SSL/TLS certificates, including auto-renewal."
+        },
+        {
+          "id": 100,
+          "category": "Security, Identity, and Compliance",
+          "name": "AWS CloudHSM",
+          "desc": "Provides a compute device that processes cryptographic operations and storage.",
+          "trick": "HSM = Hardware Security Module — a dedicated, single-tenant vault appliance for crypto keys."
+        },
+        {
+          "id": 101,
+          "category": "Security, Identity, and Compliance",
+          "name": "Amazon Cognito",
+          "desc": "Identity platform for web and mobile applications, including federation for third parties.",
+          "trick": "Cognito sounds like 'cognition/identity' — it's how your app KNOWS and signs in its users."
+        },
+        {
+          "id": 102,
+          "category": "Security, Identity, and Compliance",
+          "name": "Amazon Detective",
+          "desc": "Analyze, investigate, and identify the root cause of security findings or suspicious activities.",
+          "trick": "A Detective investigates AFTER an alarm goes off, to find the root cause."
+        },
+        {
+          "id": 103,
+          "category": "Security, Identity, and Compliance",
+          "name": "AWS Directory Service",
+          "desc": "Provides multiple ways to set up and run Microsoft Active Directory with AWS services.",
+          "trick": "Directory = literally hosts Microsoft Active Directory in AWS."
+        },
+        {
+          "id": 104,
+          "category": "Security, Identity, and Compliance",
+          "name": "AWS Firewall Manager",
+          "desc": "Provides administration and maintenance tasks across multiple accounts and resources for a variety of protections.",
+          "trick": "Manager = the central control panel to roll out firewall/WAF/Shield rules across every account at once."
+        },
+        {
+          "id": 105,
+          "category": "Security, Identity, and Compliance",
+          "name": "Amazon GuardDuty",
+          "desc": "Intelligent threat detection that provides continuous monitoring.",
+          "trick": "A guard dog that never sleeps — continuous, automated threat detection."
+        },
+        {
+          "id": 106,
+          "category": "Security, Identity, and Compliance",
+          "name": "IAM",
+          "desc": "Helps users securely control access to AWS resources.",
+          "trick": "IAM = Identity and Access Management — the master keyring: who can do what."
+        },
+        {
+          "id": 107,
+          "category": "Security, Identity, and Compliance",
+          "name": "IAM Identity Center",
+          "desc": "Manage sign-in security for workforce identities.",
+          "trick": "Identity Center = single sign-on (SSO) for your whole company's workforce across multiple accounts."
+        },
+        {
+          "id": 108,
+          "category": "Security, Identity, and Compliance",
+          "name": "Amazon Inspector",
+          "desc": "Continuously scans AWS workloads for software vulnerabilities and unintended network exposure.",
+          "trick": "Like a home inspector, it continuously scans EC2/containers/Lambda for vulnerabilities."
+        },
+        {
+          "id": 109,
+          "category": "Security, Identity, and Compliance",
+          "name": "AWS KMS",
+          "desc": "Create and control cryptographic keys that protect user data.",
+          "trick": "KMS = Key Management Service. If it's about creating/rotating ENCRYPTION KEYS, it's KMS."
+        },
+        {
+          "id": 110,
+          "category": "Security, Identity, and Compliance",
+          "name": "Amazon Macie",
+          "desc": "Discovers sensitive data, PII, and security risks, then provides automated protection against those risks.",
+          "trick": "Macie is the 'nosy' service that goes digging through S3 to find exposed PII/sensitive data."
+        },
+        {
+          "id": 111,
+          "category": "Security, Identity, and Compliance",
+          "name": "AWS Network Firewall",
+          "desc": "Provides intrusion detection and prevention for a VPC.",
+          "trick": "A firewall aimed specifically at your VPC's network traffic, not web apps (that's WAF)."
+        },
+        {
+          "id": 112,
+          "category": "Security, Identity, and Compliance",
+          "name": "AWS RAM",
+          "desc": "Securely share resources across AWS accounts.",
+          "trick": "RAM here = Resource Access Manager, NOT memory — it shares things like subnets across accounts."
+        },
+        {
+          "id": 113,
+          "category": "Security, Identity, and Compliance",
+          "name": "AWS Secrets Manager",
+          "desc": "Manage and rotate credentials to improve security.",
+          "trick": "Keeps and automatically rotates your passwords/API keys/DB credentials."
+        },
+        {
+          "id": 114,
+          "category": "Security, Identity, and Compliance",
+          "name": "AWS Security Hub",
+          "desc": "Collects security data across accounts and identifies priority security issues.",
+          "trick": "Hub = one central inbox aggregating findings from GuardDuty, Inspector, Macie, etc."
+        },
+        {
+          "id": 115,
+          "category": "Security, Identity, and Compliance",
+          "name": "AWS Shield",
+          "desc": "Provides protection against DDoS attacks for AWS resources.",
+          "trick": "A shield blocks incoming attacks — specifically DDoS floods."
+        },
+        {
+          "id": 116,
+          "category": "Security, Identity, and Compliance",
+          "name": "AWS WAF",
+          "desc": "Monitor HTTP(S) requests and control access to web application resources.",
+          "trick": "WAF = Web Application Firewall — filters malicious web requests like SQL injection and XSS."
+        },
+        {
+          "id": 117,
+          "category": "Storage",
+          "name": "AWS Backup",
+          "desc": "Centralize and automate backups of data from AWS storage services and on-premises storage systems.",
+          "trick": "Exactly what it says — one central place to automate backups across many AWS services."
+        },
+        {
+          "id": 118,
+          "category": "Storage",
+          "name": "Amazon EBS",
+          "desc": "Block-level storage volumes for use with EC2 instances.",
+          "trick": "EBS = Elastic Block Store — think of it as the 'hard drive' plugged into a single EC2 instance."
+        },
+        {
+          "id": 119,
+          "category": "Storage",
+          "name": "Amazon EFS",
+          "desc": "Serverless, fully scalable shared file system.",
+          "trick": "EFS = Elastic File System — a shared network drive many EC2 instances can mount at once."
+        },
+        {
+          "id": 120,
+          "category": "Storage",
+          "name": "AWS Elastic Disaster Recovery",
+          "desc": "Minimizes downtime and data loss from natural catastrophes, application failures, or disruptions of service.",
+          "trick": "This is literally your DR (disaster recovery) insurance policy service."
+        },
+        {
+          "id": 121,
+          "category": "Storage",
+          "name": "Amazon FSx",
+          "desc": "Launch, run, and scale file systems in the cloud.",
+          "trick": "FSx covers specific, purpose-built file systems, like Windows File Server or Lustre for HPC."
+        },
+        {
+          "id": 122,
+          "category": "Storage",
+          "name": "Amazon S3",
+          "desc": "Scalable object storage in the cloud.",
+          "trick": "S3 = Simple Storage Service — the classic 'bucket' for storing any object/file."
+        },
+        {
+          "id": 123,
+          "category": "Storage",
+          "name": "Amazon S3 Glacier storage classes",
+          "desc": "Secure and durable data archiving and long-term backup.",
+          "trick": "Glacier = frozen and slow to retrieve — the cheapest tier for data you rarely touch."
+        },
+        {
+          "id": 124,
+          "category": "Storage",
+          "name": "AWS Storage Gateway",
+          "desc": "Connect an on-premises software appliance with cloud-based storage.",
+          "trick": "Gateway = the bridge letting your on-prem servers write to S3/Glacier as if it were local storage."
+        }
+      ]
+    </script>
+    <script id="categories-data" type="application/json">
+      [
+        "Analytics",
+        "Application Integration",
+        "Business Applications",
+        "Cloud Financial Management",
+        "Compute",
+        "Containers",
+        "Customer Engagement",
+        "Database",
+        "Developer Tools",
+        "End-User Computing",
+        "Frontend Web and Mobile",
+        "Internet of Things (IoT)",
+        "Machine Learning (ML)",
+        "Management and Governance",
+        "Migration and Transfer",
+        "Networking and Content Delivery",
+        "Security, Identity, and Compliance",
+        "Storage"
+      ]
+    </script>
+    <script id="concepts-data" type="application/json">
+      [
+        {
+          "title": "AWS Well-Architected Framework — 6 Pillars",
+          "trick": "Mnemonic: \"Old Sailors Really Prefer Calm Seas\" → Operational excellence, Security, Reliability, Performance efficiency, Cost optimization, Sustainability.",
+          "items": [
+            [
+              "Operational excellence",
+              "Support and run workloads effectively, gain insights into operations, and continuously improve processes."
+            ],
+            [
+              "Security",
+              "Protect data, systems, and assets by using cloud technologies to improve security."
+            ],
+            [
+              "Reliability",
+              "The ability of a workload to perform its intended function correctly and consistently."
+            ],
+            [
+              "Performance efficiency",
+              "Use computing resources efficiently and maintain that efficiency as demand and technology evolve."
+            ],
+            [
+              "Cost optimization",
+              "Run systems to deliver business value at the lowest price point."
+            ],
+            [
+              "Sustainability",
+              "Minimize environmental impact, especially energy consumption and efficiency."
+            ]
+          ]
+        },
+        {
+          "title": "Global Infrastructure",
+          "trick": "Think of it like a delivery network zooming in: Region (country) → Availability Zone (city/data-center campus) → Edge Location (local post office) → Local Zone (AWS satellite office near a big city) → Wavelength (AWS embedded inside a phone carrier's 5G network).",
+          "items": [
+            [
+              "Regions",
+              "An isolated geographic area that consists of multiple Availability Zones."
+            ],
+            ["Availability Zones", "One or more data centers within a Region."],
+            [
+              "Edge locations",
+              "A worldwide network of data centers that optimizes latency and throughput to users."
+            ],
+            [
+              "AWS Local Zones",
+              "Provides low-latency access to applications by placing AWS resources close to large population and industry centers."
+            ],
+            [
+              "AWS Wavelength",
+              "Build applications that deliver ultra-low latencies to mobile devices and end users through 5G networks."
+            ]
+          ]
+        },
+        {
+          "title": "AWS Networking Gateways",
+          "trick": "Picture a house (your VPC): the Internet Gateway is the front door to the public internet, the NAT Gateway is a one-way peephole (outbound only) for private rooms, the Virtual Private Gateway is AWS's end of a VPN tunnel, the Customer Gateway is YOUR end of that tunnel, the Direct Connect Gateway links private lines across regions, and the Transit Gateway is the neighborhood's central hub connecting many houses (VPCs) at once.",
+          "items": [
+            [
+              "AWS Transit Gateway",
+              "Connects Amazon VPCs, AWS accounts, and on-premises networks to a single gateway."
+            ],
+            [
+              "Customer gateway",
+              "A physical or software appliance that a user owns and manages on premises."
+            ],
+            [
+              "Direct Connect gateway",
+              "Establishes connectivity that spans Amazon VPCs spread across multiple Regions."
+            ],
+            [
+              "Internet gateway",
+              "An Amazon VPC component that allows communication between a user's computer and the internet."
+            ],
+            [
+              "NAT gateway",
+              "A network address translation service that lets instances in a private subnet connect out to services outside the VPC."
+            ],
+            [
+              "Virtual private gateway",
+              "The gateway on the AWS side of an AWS Site-to-Site VPN connection."
+            ]
+          ]
+        },
+        {
+          "title": "EC2 Instance Purchasing Options",
+          "trick": "Rent an analogy: On-Demand = a hotel room per night. Reserved/Savings Plans = a signed year-long lease (cheaper for commitment). Spot = a standby flight ticket (very cheap, but you can get bumped). Dedicated Host/Instance = renting a whole floor to yourself. Capacity Reservation = reserving the seat without signing any lease.",
+          "items": [
+            [
+              "Dedicated Hosts",
+              "A physical host that is fully dedicated to the user."
+            ],
+            [
+              "Dedicated Instances",
+              "EC2 instance in a VPC dedicated to one user, no long-term commitment required, pay by the second."
+            ],
+            [
+              "EC2 Savings Plan",
+              "Commit to a 1-year or 3-year term for individual instance families in a Region; can change instance types within the family."
+            ],
+            [
+              "On-Demand Capacity Reservations",
+              "Reserve EC2 instance capacity with no term commitment required."
+            ],
+            [
+              "On-Demand Instances",
+              "No long-term commitment required, pay by the second."
+            ],
+            ["Reserved Instances", "Commit to a 1-year or 3-year term."],
+            [
+              "Spot Instances",
+              "Request unused instances for flexible workloads, at a steep discount, with possible interruption."
+            ]
+          ]
+        },
+        {
+          "title": "AWS Support Plans",
+          "trick": "Escalating response time is the key exam detail: Basic = self-service only. Developer = business-hours help, 12h for 'system impaired.' Business = 24/7, 1 hour for 'production system down.' Enterprise = 24/7, 15 minutes for 'business-critical system down' (plus a Technical Account Manager).",
+          "items": [
+            [
+              "Basic",
+              "Core Trusted Advisor checks (service quotas and basic security) — self-service only, no case support."
+            ],
+            [
+              "Developer",
+              "Adds business-hours access to an associate; general guidance within 24 business hours; system impaired help within 12 business hours."
+            ],
+            [
+              "Business",
+              "All Trusted Advisor checks; 24/7 phone/web/chat; general guidance within 24 hours; system impaired within 12 hours; production system impaired within 4 hours; production system down within 1 hour."
+            ],
+            [
+              "Enterprise",
+              "Everything in Business, plus business-critical system down help within 15 minutes and a Technical Account Manager (TAM)."
+            ]
+          ]
+        },
+        {
+          "title": "Shared Responsibility Model",
+          "trick": "AWS secures the building (\"security OF the cloud\"): global infrastructure, hardware, and the hypervisor. You secure what's inside your apartment (\"security IN the cloud\"): your data, IAM permissions, guest-OS patches, and firewall/network configuration.",
+          "items": [
+            [
+              "AWS responsibility",
+              "Global infrastructure, hosts, hardware maintenance, physical/environmental controls, edge locations, securing the EC2 hypervisor, patching the OS of managed services (RDS, ELB, Lambda), server-side encryption in S3."
+            ],
+            [
+              "Customer responsibility",
+              "Client-side data encryption, managing the guest OS, password policies, firewalls/network config, encrypting client-side data, configuring IAM roles, patching OS of EC2 instances, and controlling which services can access resources like DynamoDB tables."
+            ],
+            [
+              "Shared",
+              "Patches, configuration, and training and awareness are shared between AWS and the customer."
+            ]
+          ]
+        }
+      ]
+    </script>
+
+    <script>
+      const SERVICES = JSON.parse(
+        document.getElementById("services-data").textContent,
+      );
+      const CATEGORIES = JSON.parse(
+        document.getElementById("categories-data").textContent,
+      );
+      const CONCEPTS = JSON.parse(
+        document.getElementById("concepts-data").textContent,
+      );
+
+      /* ---------------- Tabs ---------------- */
+      document.querySelectorAll(".tab-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          document
+            .querySelectorAll(".tab-btn")
+            .forEach((b) => b.classList.remove("active"));
+          document
+            .querySelectorAll(".view")
+            .forEach((v) => v.classList.remove("active"));
+          btn.classList.add("active");
+          document
+            .getElementById("view-" + btn.dataset.view)
+            .classList.add("active");
+          const tags = {
+            study: "reference guide",
+            concepts: "core concepts",
+            quiz: "quiz",
+          };
+          document.getElementById("modeTag").textContent =
+            tags[btn.dataset.view];
+        });
+      });
+
+      /* ---------------- Study view ---------------- */
+      let activeCat = "All";
+      let searchTerm = "";
+
+      function renderCatFilter() {
+        const wrap = document.getElementById("catFilter");
+        wrap.innerHTML = "";
+        const all = ["All", ...CATEGORIES];
+        all.forEach((cat) => {
+          const pill = document.createElement("button");
+          pill.className = "cat-pill" + (cat === activeCat ? " active" : "");
+          pill.textContent = cat;
+          pill.addEventListener("click", () => {
+            activeCat = cat;
+            renderCatFilter();
+            renderStudyList();
+          });
+          wrap.appendChild(pill);
+        });
+      }
+
+      function renderStudyList() {
+        const list = document.getElementById("studyList");
+        list.innerHTML = "";
+        const term = searchTerm.trim().toLowerCase();
+
+        const grouped = {};
+        SERVICES.forEach((s) => {
+          if (activeCat !== "All" && s.category !== activeCat) return;
+          if (
+            term &&
+            !(
+              s.name.toLowerCase().includes(term) ||
+              s.desc.toLowerCase().includes(term)
+            )
+          )
+            return;
+          (grouped[s.category] = grouped[s.category] || []).push(s);
+        });
+
+        const catsToShow = CATEGORIES.filter(
+          (c) => grouped[c] && grouped[c].length,
+        );
+        if (catsToShow.length === 0) {
+          list.innerHTML =
+            '<p style="color:var(--text-dim); font-family:var(--sans); font-size:14px;">No services match that search.</p>';
+          return;
+        }
+
+        catsToShow.forEach((cat) => {
+          const group = document.createElement("div");
+          group.className = "cat-group";
+          const h2 = document.createElement("h2");
+          h2.textContent = cat;
+          group.appendChild(h2);
+          grouped[cat].forEach((s) => {
+            const card = document.createElement("div");
+            card.className = "card";
+            card.innerHTML = `
+        <div class="name">${s.name}</div>
+        <div class="desc">${s.desc}</div>
+        <div class="trick"><span class="icon">TRICK</span><span>${s.trick}</span></div>
+      `;
+            group.appendChild(card);
+          });
+          list.appendChild(group);
+        });
+      }
+
+      document.getElementById("searchBox").addEventListener("input", (e) => {
+        searchTerm = e.target.value;
+        renderStudyList();
+      });
+
+      renderCatFilter();
+      renderStudyList();
+
+      /* ---------------- Concepts view ---------------- */
+      function renderConcepts() {
+        const wrap = document.getElementById("conceptsList");
+        wrap.innerHTML = "";
+        CONCEPTS.forEach((block) => {
+          const div = document.createElement("div");
+          div.className = "concept-block";
+          let itemsHtml = block.items
+            .map(
+              ([name, desc]) =>
+                `<div class="concept-item"><b>${name}:</b> ${desc}</div>`,
+            )
+            .join("");
+          div.innerHTML = `
+      <h3>${block.title}</h3>
+      <div class="trick"><span class="icon">TRICK</span><span>${block.trick}</span></div>
+      ${itemsHtml}
+    `;
+          wrap.appendChild(div);
+        });
+      }
+      renderConcepts();
+
+      /* ---------------- Quiz ---------------- */
+      function shuffle(arr) {
+        const a = arr.slice();
+        for (let i = a.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [a[i], a[j]] = [a[j], a[i]];
+        }
+        return a;
+      }
+
+      let selectedLen = "20";
+      document.querySelectorAll("#lengthGrid .choice-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          document
+            .querySelectorAll("#lengthGrid .choice-btn")
+            .forEach((b) => b.classList.remove("selected"));
+          btn.classList.add("selected");
+          selectedLen = btn.dataset.len;
+        });
+      });
+      document
+        .querySelector('#lengthGrid .choice-btn[data-len="20"]')
+        .classList.add("selected");
+
+      let session = [];
+      let qIdx = 0;
+      let score = 0;
+      let missed = [];
+      let answered = false;
+      let selectedAnswer = null;
+
+      function buildQuestion(service) {
+        // Distractors: prefer same category, fall back to global pool
+        let pool = SERVICES.filter(
+          (s) => s.id !== service.id && s.category === service.category,
+        );
+        if (pool.length < 3) {
+          pool = pool.concat(
+            SERVICES.filter(
+              (s) => s.id !== service.id && s.category !== service.category,
+            ),
+          );
+        }
+        const distractors = shuffle(pool)
+          .slice(0, 3)
+          .map((s) => s.name);
+        const options = shuffle([service.name, ...distractors]);
+        return {
+          service,
+          prompt: service.desc,
+          options,
+          correct: service.name,
+        };
+      }
+
+      document.getElementById("startQuizBtn").addEventListener("click", () => {
+        let pool = shuffle(SERVICES);
+        if (selectedLen !== "all") {
+          pool = pool.slice(0, parseInt(selectedLen, 10));
+        }
+        session = pool.map(buildQuestion);
+        qIdx = 0;
+        score = 0;
+        missed = [];
+
+        document.getElementById("quiz-start").classList.add("hidden");
+        document.getElementById("quiz-end").classList.add("hidden");
+        document.getElementById("quiz-play").classList.remove("hidden");
+        renderQuizQuestion();
+      });
+
+      document.getElementById("quitQuizBtn").addEventListener("click", () => {
+        if (confirm("Exit this quiz? Your progress will be lost.")) {
+          document.getElementById("quiz-play").classList.add("hidden");
+          document.getElementById("quiz-start").classList.remove("hidden");
+        }
+      });
+
+      document
+        .getElementById("restartQuizBtn")
+        .addEventListener("click", () => {
+          document.getElementById("quiz-end").classList.add("hidden");
+          document.getElementById("quiz-start").classList.remove("hidden");
+        });
+
+      function renderQuizQuestion() {
+        answered = false;
+        selectedAnswer = null;
+        const q = session[qIdx];
+
+        document.getElementById("qPosition").textContent =
+          `Question ${qIdx + 1} / ${session.length}`;
+        document.getElementById("liveScore").textContent = score;
+        document.getElementById("progressFill").style.width =
+          `${(qIdx / session.length) * 100}%`;
+        document.getElementById("qCategory").textContent = q.service.category;
+        document.getElementById("qText").textContent =
+          `Which AWS service: ${q.prompt}`;
+
+        const wrap = document.getElementById("optionsWrap");
+        wrap.innerHTML = "";
+        q.options.forEach((name) => {
+          const div = document.createElement("div");
+          div.className = "opt";
+          div.dataset.name = name;
+          div.textContent = name;
+          div.addEventListener("click", () => selectQuizOption(name));
+          wrap.appendChild(div);
+        });
+
+        document.getElementById("feedbackBox").className = "feedback";
+        document.getElementById("feedbackBox").textContent = "";
+        document.getElementById("submitQuizBtn").textContent = "Submit answer";
+      }
+
+      function selectQuizOption(name) {
+        if (answered) return;
+        document
+          .querySelectorAll("#optionsWrap .opt")
+          .forEach((o) => o.classList.remove("marked"));
+        selectedAnswer = name;
+        document
+          .querySelector(`#optionsWrap .opt[data-name="${CSS.escape(name)}"]`)
+          .classList.add("marked");
+      }
+
+      document.getElementById("submitQuizBtn").addEventListener("click", () => {
+        if (!answered) {
+          submitQuizAnswer();
+        } else {
+          nextQuizQuestion();
+        }
+      });
+
+      function submitQuizAnswer() {
+        const q = session[qIdx];
+        if (!selectedAnswer) {
+          alert("Pick an answer before submitting.");
+          return;
+        }
+        answered = true;
+        const isCorrect = selectedAnswer === q.correct;
+
+        document.querySelectorAll("#optionsWrap .opt").forEach((o) => {
+          o.classList.add("disabled");
+          if (o.dataset.name === q.correct) o.classList.add("correct");
+          else if (o.dataset.name === selectedAnswer)
+            o.classList.add("incorrect");
+        });
+
+        const fb = document.getElementById("feedbackBox");
+        if (isCorrect) {
+          score++;
+          fb.innerHTML = `Correct — ${q.correct}.<span class="trick-note">${q.service.trick}</span>`;
+          fb.className = "feedback show right";
+        } else {
+          fb.innerHTML = `Not quite — that's ${q.correct}.<span class="trick-note">${q.service.trick}</span>`;
+          fb.className = "feedback show wrong";
+          missed.push({
+            name: q.correct,
+            desc: q.prompt,
+            yours: selectedAnswer,
+            trick: q.service.trick,
+          });
+        }
+
+        document.getElementById("liveScore").textContent = score;
+        document.getElementById("submitQuizBtn").textContent =
+          qIdx === session.length - 1 ? "See results" : "Next question";
+      }
+
+      function nextQuizQuestion() {
+        qIdx++;
+        if (qIdx >= session.length) {
+          showQuizResults();
+        } else {
+          renderQuizQuestion();
+        }
+      }
+
+      function showQuizResults() {
+        document.getElementById("progressFill").style.width = "100%";
+        document.getElementById("quiz-play").classList.add("hidden");
+        document.getElementById("quiz-end").classList.remove("hidden");
+
+        const pct = Math.round((score / session.length) * 100);
+        document.getElementById("finalPct").textContent = pct + "%";
+        document.getElementById("finalFrac").textContent =
+          `${score} / ${session.length} correct`;
+
+        let verdict;
+        if (pct >= 90) verdict = "The service map is locked in.";
+        else if (pct >= 75)
+          verdict =
+            "Solid — a quick re-read of the misses below and you're set.";
+        else if (pct >= 50)
+          verdict =
+            "Getting there. Revisit the tricks for the missed services.";
+        else verdict = "Worth a slower pass through the study guide tab first.";
+        document.getElementById("finalVerdict").textContent = verdict;
+
+        const reviewPanel = document.getElementById("reviewPanel");
+        const reviewList = document.getElementById("reviewList");
+        reviewList.innerHTML = "";
+        if (missed.length === 0) {
+          reviewPanel.classList.add("hidden");
+        } else {
+          reviewPanel.classList.remove("hidden");
+          missed.forEach((m) => {
+            const div = document.createElement("div");
+            div.className = "review-item";
+            div.innerHTML = `<div class="rq"><b>${m.name}</b> — ${m.desc}</div>
+        <div class="ra"><span class="yours">Your answer: ${m.yours}</span></div>
+        <div style="margin-top:6px; font-size:13.5px; color:var(--text-dim);">${m.trick}</div>`;
+            reviewList.appendChild(div);
+          });
+        }
+      }
+    </script>
+  </body>
+</html>

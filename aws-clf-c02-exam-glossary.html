@@ -1,0 +1,2495 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AWS CLF-C02 — Exam-Derived Glossary</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=IBM+Plex+Mono:wght@400;500&display=swap");
+
+      :root {
+        --bg: #12151a;
+        --surface: #1a1e25;
+        --surface-2: #20252d;
+        --border: #2c323c;
+        --text: #e7e9ee;
+        --text-dim: #9aa1ad;
+        --violet: #9d8ce8;
+        --violet-dim: #4a4270;
+        --violet-bg: rgba(157, 140, 232, 0.1);
+        --amber: #e8a33d;
+        --green: #5fb489;
+        --green-bg: rgba(95, 180, 137, 0.12);
+        --red: #d97575;
+        --red-bg: rgba(217, 117, 117, 0.12);
+        --mono: "IBM Plex Mono", monospace;
+        --serif: "Newsreader", serif;
+        --sans: "Space Grotesk", sans-serif;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--serif);
+        min-height: 100vh;
+        line-height: 1.5;
+      }
+      ::selection {
+        background: var(--violet-dim);
+        color: var(--text);
+      }
+
+      .app {
+        max-width: 760px;
+        margin: 0 auto;
+        padding: 32px 20px 80px;
+        min-height: 100vh;
+      }
+
+      .masthead {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 16px;
+        margin-bottom: 24px;
+      }
+      .masthead .brand {
+        font-family: var(--sans);
+        font-weight: 700;
+        font-size: 18px;
+      }
+      .masthead .brand span {
+        color: var(--violet);
+      }
+      .masthead .tag {
+        font-family: var(--mono);
+        font-size: 11px;
+        color: var(--text-dim);
+      }
+
+      .hero h1 {
+        font-family: var(--sans);
+        font-size: 30px;
+        font-weight: 600;
+        line-height: 1.2;
+        margin: 4px 0 10px;
+        letter-spacing: -0.01em;
+      }
+      .hero p.lede {
+        font-size: 17px;
+        color: var(--text-dim);
+        max-width: 58ch;
+        margin: 0 0 22px;
+      }
+
+      .stat-row {
+        display: flex;
+        gap: 26px;
+        margin-bottom: 26px;
+        flex-wrap: wrap;
+      }
+      .stat {
+        font-family: var(--mono);
+      }
+      .stat .num {
+        display: block;
+        font-size: 26px;
+        color: var(--violet);
+        font-weight: 500;
+      }
+      .stat .lab {
+        font-size: 11px;
+        color: var(--text-dim);
+      }
+
+      .tabs {
+        display: flex;
+        gap: 6px;
+        margin-bottom: 24px;
+        border-bottom: 1px solid var(--border);
+      }
+      .tab-btn {
+        font-family: var(--sans);
+        background: transparent;
+        border: none;
+        border-bottom: 2px solid transparent;
+        color: var(--text-dim);
+        padding: 10px 4px;
+        margin-right: 22px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+      }
+      .tab-btn.active {
+        color: var(--violet);
+        border-bottom-color: var(--violet);
+      }
+      .view {
+        display: none;
+      }
+      .view.active {
+        display: block;
+      }
+
+      .search-row {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 16px;
+      }
+      .search-row input[type="text"] {
+        flex: 1;
+        font-family: var(--sans);
+        background: var(--surface);
+        border: 1px solid var(--border);
+        color: var(--text);
+        padding: 11px 14px;
+        border-radius: 4px;
+        font-size: 14px;
+      }
+      .search-row input[type="text"]:focus {
+        outline: none;
+        border-color: var(--violet);
+      }
+
+      .cat-filter {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-bottom: 22px;
+      }
+      .cat-pill {
+        font-family: var(--mono);
+        font-size: 11px;
+        background: var(--surface-2);
+        border: 1px solid var(--border);
+        color: var(--text-dim);
+        padding: 5px 10px;
+        border-radius: 20px;
+        cursor: pointer;
+      }
+      .cat-pill.active {
+        border-color: var(--violet);
+        color: var(--violet);
+      }
+
+      .cat-group {
+        margin-bottom: 30px;
+      }
+      .cat-group h2 {
+        font-family: var(--sans);
+        font-size: 13px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--amber);
+        margin: 0 0 12px;
+        padding-bottom: 6px;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 4px;
+        padding: 18px 20px;
+        margin-bottom: 12px;
+      }
+      .card .name-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        margin-bottom: 6px;
+        gap: 10px;
+      }
+      .card .name {
+        font-family: var(--sans);
+        font-weight: 600;
+        font-size: 15.5px;
+      }
+      .card .freq {
+        font-family: var(--mono);
+        font-size: 10.5px;
+        color: var(--text-dim);
+        white-space: nowrap;
+      }
+      .card .desc {
+        font-size: 14.5px;
+        color: var(--text-dim);
+        margin-bottom: 10px;
+      }
+      .card .trick {
+        display: flex;
+        gap: 10px;
+        background: var(--violet-bg);
+        border-left: 2px solid var(--violet);
+        padding: 10px 12px;
+        border-radius: 3px;
+        font-size: 14px;
+        margin-bottom: 10px;
+      }
+      .card .trick .icon {
+        font-family: var(--mono);
+        color: var(--violet);
+        font-size: 11px;
+        flex-shrink: 0;
+        padding-top: 2px;
+      }
+      .card .scenario {
+        font-family: var(--mono);
+        font-size: 12.5px;
+        color: var(--text-dim);
+        border-top: 1px dashed var(--border);
+        padding-top: 10px;
+        margin-top: 4px;
+      }
+      .card .scenario b {
+        color: var(--amber);
+        font-weight: 600;
+      }
+
+      /* Quiz reuse */
+      .panel {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 4px;
+        padding: 24px;
+        margin-bottom: 20px;
+      }
+      .panel h2 {
+        font-family: var(--sans);
+        font-size: 13px;
+        font-weight: 600;
+        margin: 0 0 16px;
+        color: var(--text-dim);
+      }
+      .option-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin-bottom: 8px;
+      }
+      @media (max-width: 480px) {
+        .option-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+      .choice-btn {
+        font-family: var(--sans);
+        background: var(--surface-2);
+        border: 1px solid var(--border);
+        color: var(--text);
+        padding: 12px 14px;
+        border-radius: 4px;
+        cursor: pointer;
+        text-align: left;
+        font-size: 13.5px;
+      }
+      .choice-btn.selected {
+        border-color: var(--violet);
+        background: var(--violet-bg);
+        color: var(--violet);
+      }
+
+      .btn-primary {
+        font-family: var(--sans);
+        background: var(--violet);
+        color: #141020;
+        border: none;
+        padding: 15px 26px;
+        font-size: 15px;
+        font-weight: 600;
+        border-radius: 4px;
+        cursor: pointer;
+        width: 100%;
+      }
+      .btn-primary:hover {
+        filter: brightness(1.1);
+      }
+      .btn-secondary {
+        font-family: var(--sans);
+        background: transparent;
+        color: var(--text-dim);
+        border: 1px solid var(--border);
+        padding: 11px 18px;
+        font-size: 13px;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      .quiz-header {
+        display: flex;
+        justify-content: space-between;
+        font-family: var(--mono);
+        font-size: 12px;
+        color: var(--text-dim);
+        margin-bottom: 16px;
+      }
+      .quiz-header .score {
+        color: var(--violet);
+      }
+      .progress-track {
+        height: 3px;
+        background: var(--border);
+        border-radius: 2px;
+        margin-bottom: 26px;
+        overflow: hidden;
+      }
+      .progress-fill {
+        height: 100%;
+        background: var(--violet);
+        transition: width 0.2s ease;
+      }
+
+      .q-tagline {
+        font-family: var(--mono);
+        font-size: 11px;
+        color: var(--violet);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin-bottom: 10px;
+      }
+      .q-text {
+        font-size: 19px;
+        line-height: 1.4;
+        margin: 0 0 22px;
+      }
+      .options {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-bottom: 22px;
+      }
+      .opt {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 4px;
+        padding: 13px 16px;
+        cursor: pointer;
+        font-size: 15px;
+      }
+      .opt:hover {
+        border-color: var(--violet-dim);
+      }
+      .opt.marked {
+        border-color: var(--violet);
+        background: var(--violet-bg);
+      }
+      .opt.correct {
+        border-color: var(--green);
+        background: var(--green-bg);
+      }
+      .opt.incorrect {
+        border-color: var(--red);
+        background: var(--red-bg);
+      }
+      .opt.disabled {
+        cursor: default;
+      }
+
+      .feedback {
+        font-family: var(--sans);
+        font-size: 14px;
+        padding: 14px 16px;
+        border-radius: 4px;
+        margin-bottom: 20px;
+        display: none;
+      }
+      .feedback.show {
+        display: block;
+      }
+      .feedback.right {
+        background: var(--green-bg);
+        color: var(--green);
+      }
+      .feedback.wrong {
+        background: var(--red-bg);
+        color: var(--red);
+      }
+      .feedback .trick-note {
+        display: block;
+        margin-top: 8px;
+        color: var(--text-dim);
+        font-family: var(--serif);
+        font-size: 14px;
+      }
+
+      .nav-row {
+        display: flex;
+        gap: 10px;
+        justify-content: space-between;
+      }
+      .nav-row .btn-primary {
+        flex: 1;
+      }
+
+      .result-hero {
+        text-align: center;
+        padding: 34px 0 26px;
+      }
+      .result-hero .big-score {
+        font-family: var(--sans);
+        font-size: 58px;
+        font-weight: 700;
+        color: var(--violet);
+        line-height: 1;
+      }
+      .result-hero .of {
+        font-family: var(--mono);
+        color: var(--text-dim);
+        font-size: 14px;
+        margin-top: 8px;
+      }
+      .result-hero h2 {
+        font-family: var(--sans);
+        font-weight: 500;
+        font-size: 19px;
+        margin: 16px 0 0;
+      }
+
+      .hidden {
+        display: none !important;
+      }
+      footer.note {
+        text-align: center;
+        color: var(--text-dim);
+        font-family: var(--mono);
+        font-size: 11px;
+        margin-top: 40px;
+      }
+
+      .lin {
+        text-decoration: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app">
+      <div class="masthead">
+        <div class="brand">
+          CLF<span>·</span>C02
+          <span style="color: var(--text)">Exam Glossary</span>
+        </div>
+        <button class="choice-btn" data-len="10">
+          <a class="lin" href="aws-clf-c02-quiz.html">Main Page</a>
+        </button>
+
+        <div class="tag" id="modeTag">glossary</div>
+      </div>
+
+      <div class="hero">
+        <h1>Glossary, straight from the exam bank</h1>
+        <p class="lede">
+          Every named AWS service, feature, and concept that shows up as a
+          correct answer across the 618-question practice set — pulled out and
+          given a clear description, a memory trick, and the real exam scenario
+          it came from.
+        </p>
+      </div>
+
+      <div class="stat-row">
+        <div class="stat">
+          <span class="num" id="totalTerms">0</span
+          ><span class="lab">glossary terms</span>
+        </div>
+        <div class="stat">
+          <span class="num" id="totalCats">0</span
+          ><span class="lab">categories</span>
+        </div>
+        <div class="stat">
+          <span class="num" id="topTerm">—</span
+          ><span class="lab">most-tested term</span>
+        </div>
+      </div>
+
+      <div class="tabs">
+        <button class="tab-btn active" data-view="glossary">Glossary</button>
+        <button class="tab-btn" data-view="quiz">Quiz</button>
+      </div>
+
+      <!-- GLOSSARY VIEW -->
+      <div class="view active" id="view-glossary">
+        <div class="search-row">
+          <input
+            type="text"
+            id="searchBox"
+            placeholder="Search a term, keyword, or scenario…"
+          />
+        </div>
+        <div class="cat-filter" id="catFilter"></div>
+        <div id="glossaryList"></div>
+      </div>
+
+      <!-- QUIZ VIEW -->
+      <div class="view" id="view-quiz">
+        <div id="quiz-start">
+          <div class="panel">
+            <h2>SESSION LENGTH</h2>
+            <div class="option-grid" id="lengthGrid">
+              <button class="choice-btn" data-len="10">10 terms</button>
+              <button class="choice-btn" data-len="25">25 terms</button>
+              <button class="choice-btn" data-len="50">50 terms</button>
+              <button class="choice-btn" data-len="all">All terms</button>
+            </div>
+          </div>
+          <button class="btn-primary" id="startQuizBtn">Start quiz</button>
+        </div>
+
+        <div id="quiz-play" class="hidden">
+          <div class="quiz-header">
+            <span id="qPosition">Question 1 / 10</span>
+            <span class="score">Score: <span id="liveScore">0</span></span>
+          </div>
+          <div class="progress-track">
+            <div
+              class="progress-fill"
+              id="progressFill"
+              style="width: 0%"
+            ></div>
+          </div>
+
+          <div class="q-tagline" id="qCategory">Compute</div>
+          <p class="q-text" id="qText"></p>
+          <div class="options" id="optionsWrap"></div>
+          <div class="feedback" id="feedbackBox"></div>
+
+          <div class="nav-row">
+            <button class="btn-secondary" id="quitQuizBtn">Exit</button>
+            <button class="btn-primary" id="submitQuizBtn">
+              Submit answer
+            </button>
+          </div>
+        </div>
+
+        <div id="quiz-end" class="hidden">
+          <div class="result-hero">
+            <div class="big-score" id="finalPct">0%</div>
+            <div class="of" id="finalFrac">0 / 0 correct</div>
+            <h2 id="finalVerdict"></h2>
+          </div>
+          <div class="panel" id="reviewPanel">
+            <h2>MISSED TERMS</h2>
+            <div id="reviewList"></div>
+          </div>
+          <button class="btn-primary" id="restartQuizBtn">
+            Start another session
+          </button>
+        </div>
+      </div>
+
+      <footer class="note">
+        Derived from the ExamTopics CLF-C02 free question set · descriptions and
+        tricks are original, for personal study only
+      </footer>
+    </div>
+
+    <script id="glossary-data" type="application/json">
+      [
+        {
+          "id": 23,
+          "name": "Spot Instances",
+          "category": "Pricing, Billing & Support",
+          "desc": "Request unused instances for flexible workloads, at a steep discount, with possible interruption.",
+          "trick": "Rent an analogy: On-Demand = a hotel room per night. Reserved/Savings Plans = a signed year-long lease (cheaper for commitment). Spot = a standby flight ticket (very cheap, but you can get bumped). Dedicated Host/Instance = renting a whole floor to yourself. Capacity Reservation = reserving the seat without signing any lease.",
+          "scenario": "Which Amazon EC2 instance pricing model can provide discounts of up to 90%?",
+          "scenario_qnum": 213,
+          "seen_count": 12
+        },
+        {
+          "id": 12,
+          "name": "Reserved Instances",
+          "category": "Pricing, Billing & Support",
+          "desc": "Commit to a 1-year or 3-year term.",
+          "trick": "Rent an analogy: On-Demand = a hotel room per night. Reserved/Savings Plans = a signed year-long lease (cheaper for commitment). Spot = a standby flight ticket (very cheap, but you can get bumped). Dedicated Host/Instance = renting a whole floor to yourself. Capacity Reservation = reserving the seat without signing any lease.",
+          "scenario": "A user has a stateful workload that will run on Amazon EC2 for the next 3 years. What is the MOST cost-effective pricing model for this workload?",
+          "scenario_qnum": 230,
+          "seen_count": 11
+        },
+        {
+          "id": 26,
+          "name": "AWS CloudTrail",
+          "category": "Management, Governance & Architecture",
+          "desc": "Records actions taken by users in the console, AWS CLI, AWS SDKs, and APIs.",
+          "trick": "A 'trail' is footprints left behind — CloudTrail logs WHO did WHAT (the audit log).",
+          "scenario": "Which service enables customers to audit API calls in their AWS accounts?",
+          "scenario_qnum": 41,
+          "seen_count": 10
+        },
+        {
+          "id": 37,
+          "name": "Security groups",
+          "category": "Security, Identity & Compliance",
+          "desc": "A stateful, instance-level virtual firewall that controls inbound and outbound traffic for one or more EC2 instances, evaluating only 'allow' rules.",
+          "trick": "Security groups only ever say 'allow' (never 'deny') and are stateful — reply traffic is automatically permitted without a matching rule.",
+          "scenario": "Which of the following acts as an instance-level firewall to control inbound and outbound access?",
+          "scenario_qnum": 214,
+          "seen_count": 9
+        },
+        {
+          "id": 11,
+          "name": "AWS CloudFormation",
+          "category": "Management, Governance & Architecture",
+          "desc": "Model, set up, and create templates of AWS resources.",
+          "trick": "'Formation' = forming your infrastructure from a written blueprint (Infrastructure as Code).",
+          "scenario": "Which AWS service uses a combination of publishers and subscribers?",
+          "scenario_qnum": 376,
+          "seen_count": 8
+        },
+        {
+          "id": 81,
+          "name": "AWS IAM Identity Center",
+          "category": "Security, Identity & Compliance",
+          "desc": "Manage sign-in security for workforce identities.",
+          "trick": "Identity Center = single sign-on (SSO) for your whole company's workforce across multiple accounts.",
+          "scenario": "A company wants to centrally manage its employee's access to multiple AWS accounts. Which AWS service or feature should the company use to meet this requirement?",
+          "scenario_qnum": 571,
+          "seen_count": 8
+        },
+        {
+          "id": 35,
+          "name": "Amazon DynamoDB",
+          "category": "Database",
+          "desc": "NoSQL database service with fast and predictable performance and seamless scalability; schemaless.",
+          "trick": "'Dynamo' = dynamic and schemaless — the go-to key-value NoSQL database, blazing fast at any scale.",
+          "scenario": "Which of the following is a fully managed graph database service on AWS?",
+          "scenario_qnum": 308,
+          "seen_count": 8
+        },
+        {
+          "id": 70,
+          "name": "Amazon EC2",
+          "category": "Compute",
+          "desc": "Provides scalable computing capacity in the AWS Cloud.",
+          "trick": "EC2 = Elastic Compute Cloud — the classic virtual server, the 'default' compute answer.",
+          "scenario": "Which AWS services can host PostgreSQL databases? (Choose two.)",
+          "scenario_qnum": 469,
+          "seen_count": 8
+        },
+        {
+          "id": 19,
+          "name": "AWS Artifact",
+          "category": "Security, Identity & Compliance",
+          "desc": "Download security and compliance documents.",
+          "trick": "Artifact here = the paperwork — compliance reports and agreements you download (not code packages).",
+          "scenario": "Which AWS service can be used to retrieve compliance reports on demand?",
+          "scenario_qnum": 174,
+          "seen_count": 7
+        },
+        {
+          "id": 13,
+          "name": "AWS Direct Connect",
+          "category": "Networking & Content Delivery",
+          "desc": "A private dedicated network connection from an on-premises data center to the cloud.",
+          "trick": "'Direct' = a literal dedicated cable to AWS, bypassing the public internet.",
+          "scenario": "Which AWS services or features enable users to connect on-premises networks to a VPC? (Choose two.)",
+          "scenario_qnum": 181,
+          "seen_count": 7
+        },
+        {
+          "id": 60,
+          "name": "AWS Storage Gateway",
+          "category": "Storage",
+          "desc": "Connect an on-premises software appliance with cloud-based storage.",
+          "trick": "Gateway = the bridge letting your on-prem servers write to S3/Glacier as if it were local storage.",
+          "scenario": "Which AWS solution gives companies the ability to use protocols such as NFS to store and retrieve objects in Amazon S3?",
+          "scenario_qnum": 533,
+          "seen_count": 7
+        },
+        {
+          "id": 24,
+          "name": "AWS WAF",
+          "category": "Security, Identity & Compliance",
+          "desc": "Monitor HTTP(S) requests and control access to web application resources.",
+          "trick": "WAF = Web Application Firewall — filters malicious web requests like SQL injection and XSS.",
+          "scenario": "Which AWS service or component allows inbound traffic from the internet to access a VPC?",
+          "scenario_qnum": 352,
+          "seen_count": 7
+        },
+        {
+          "id": 8,
+          "name": "On-Demand Instances",
+          "category": "Pricing, Billing & Support",
+          "desc": "No long-term commitment required, pay by the second.",
+          "trick": "Rent an analogy: On-Demand = a hotel room per night. Reserved/Savings Plans = a signed year-long lease (cheaper for commitment). Spot = a standby flight ticket (very cheap, but you can get bumped). Dedicated Host/Instance = renting a whole floor to yourself. Capacity Reservation = reserving the seat without signing any lease.",
+          "scenario": "A company wants to run a simulation for 3 years without interruptions. Which Amazon EC2 instance purchasing option will meet these requirements MOST cost-effectively?",
+          "scenario_qnum": 266,
+          "seen_count": 7
+        },
+        {
+          "id": 1,
+          "name": "AWS Fargate",
+          "category": "Compute",
+          "desc": "Works with Amazon ECS to run containers without the need to manage servers or EC2 instances.",
+          "trick": "Fargate lets containers run 'far' away from any server you have to manage — serverless containers.",
+          "scenario": "Which of the following AWS services are serverless? (Choose two.)",
+          "scenario_qnum": 361,
+          "seen_count": 6
+        },
+        {
+          "id": 28,
+          "name": "AWS Organizations",
+          "category": "Pricing, Billing & Support",
+          "desc": "Account management service that can consolidate billing and accounts.",
+          "trick": "'Organize' many separate AWS accounts under one company umbrella with consolidated billing.",
+          "scenario": "Which AWS service can be used at no additional cost?",
+          "scenario_qnum": 44,
+          "seen_count": 6
+        },
+        {
+          "id": 44,
+          "name": "AWS Trusted Advisor",
+          "category": "Management, Governance & Architecture",
+          "desc": "Inspects a user's AWS environment and makes recommendations based on best practices.",
+          "trick": "Your 'trusted advisor' gives you tips across cost, security, performance, and fault tolerance.",
+          "scenario": "Which of the following are ways to improve security on AWS? (Choose two.)",
+          "scenario_qnum": 448,
+          "seen_count": 6
+        },
+        {
+          "id": 58,
+          "name": "Amazon CloudFront",
+          "category": "Networking & Content Delivery",
+          "desc": "Speed up distribution of static and dynamic web content to end users through edge locations.",
+          "trick": "It sits 'in front' of your content, cached at edge locations close to users — AWS's CDN.",
+          "scenario": "Which AWS service enables companies to deploy an application close to end users?",
+          "scenario_qnum": 85,
+          "seen_count": 6
+        },
+        {
+          "id": 18,
+          "name": "Amazon CloudWatch",
+          "category": "Management, Governance & Architecture",
+          "desc": "Monitors resources and applications, collects and tracks metrics, has alarms.",
+          "trick": "'Watch' = watching live metrics and setting alarms — the monitoring dashboard, not the audit log.",
+          "scenario": "Which AWS service or tool will monitor AWS resources and applications in real time?",
+          "scenario_qnum": 378,
+          "seen_count": 6
+        },
+        {
+          "id": 112,
+          "name": "Amazon GuardDuty",
+          "category": "Security, Identity & Compliance",
+          "desc": "Intelligent threat detection that provides continuous monitoring.",
+          "trick": "A guard dog that never sleeps — continuous, automated threat detection.",
+          "scenario": "Which AWS service allows users to download security and compliance reports about the AWS infrastructure on demand?",
+          "scenario_qnum": 287,
+          "seen_count": 6
+        },
+        {
+          "id": 59,
+          "name": "Amazon S3",
+          "category": "Storage",
+          "desc": "Scalable object storage in the cloud.",
+          "trick": "S3 = Simple Storage Service — the classic 'bucket' for storing any object/file.",
+          "scenario": "Which AWS service provides highly durable object storage?",
+          "scenario_qnum": 87,
+          "seen_count": 6
+        },
+        {
+          "id": 29,
+          "name": "Savings Plans",
+          "category": "Pricing, Billing & Support",
+          "desc": "A flexible pricing model offering lower prices than On-Demand in exchange for a commitment to a consistent amount of compute usage (measured in $/hour) for a 1- or 3-year term.",
+          "trick": "Savings Plans commit to a DOLLAR AMOUNT per hour (flexible across instance types/regions), while Reserved Instances commit to a specific INSTANCE TYPE.",
+          "scenario": "Which AWS resource can help a company reduce its costs in exchange for a usage commitment when using Amazon EC2 instances?",
+          "scenario_qnum": 380,
+          "seen_count": 6
+        },
+        {
+          "id": 25,
+          "name": "AWS IAM Access Analyzer",
+          "category": "Security, Identity & Compliance",
+          "desc": "Analyzes resource policies to identify resources (like S3 buckets or IAM roles) that are shared with an external entity, helping find unintended public or cross-account access.",
+          "trick": "'Analyzer' = it scans your permissions and flags anything unexpectedly shared outside your account.",
+          "scenario": "Which AWS service or feature will search for and identify AWS resources that are shared externally?",
+          "scenario_qnum": 234,
+          "seen_count": 5
+        },
+        {
+          "id": 87,
+          "name": "AWS Marketplace",
+          "category": "Pricing, Billing & Support",
+          "desc": "Curated digital catalog of third-party software, data, and services.",
+          "trick": "Literally a marketplace/app store for third-party AWS-compatible software.",
+          "scenario": "A company wants a web application to interact with various AWS services. Which AWS service or resource will meet this requirement?",
+          "scenario_qnum": 342,
+          "seen_count": 5
+        },
+        {
+          "id": 96,
+          "name": "Amazon Cognito",
+          "category": "Security, Identity & Compliance",
+          "desc": "Identity platform for web and mobile applications, including federation for third parties.",
+          "trick": "Cognito sounds like 'cognition/identity' — it's how your app KNOWS and signs in its users.",
+          "scenario": "Which of the following are ways to improve security on AWS? (Choose two.)",
+          "scenario_qnum": 448,
+          "seen_count": 5
+        },
+        {
+          "id": 6,
+          "name": "Amazon QuickSight",
+          "category": "Analytics, Dev Tools & Other",
+          "desc": "Business intelligence service that provides insights in a single data dashboard.",
+          "trick": "QuickSight = a quick, visual 'sight' into your numbers — AWS's BI dashboard tool.",
+          "scenario": "Which AWS service gives users the ability to build interactive business intelligence dashboards that include machine learning insights?",
+          "scenario_qnum": 166,
+          "seen_count": 5
+        },
+        {
+          "id": 41,
+          "name": "Amazon RDS",
+          "category": "Database",
+          "desc": "Set up, operate, and scale a relational database in the cloud.",
+          "trick": "RDS = Relational Database Service — the managed umbrella for MySQL, PostgreSQL, SQL Server, etc.",
+          "scenario": "Which AWS service can run a managed PostgreSQL database that provides online transaction processing (OLTP)?",
+          "scenario_qnum": 63,
+          "seen_count": 5
+        },
+        {
+          "id": 63,
+          "name": "Amazon Redshift",
+          "category": "Database",
+          "desc": "Petabyte-scale data warehouse with automatically provisioned resources and intelligent scaling.",
+          "trick": "'Red-shift' is an astronomy term for objects moving away at massive scale — think huge-scale data warehousing.",
+          "scenario": "Which AWS services are supported by Savings Plans? (Choose two.)",
+          "scenario_qnum": 330,
+          "seen_count": 5
+        },
+        {
+          "id": 93,
+          "name": "Amazon Route 53",
+          "category": "Networking & Content Delivery",
+          "desc": "DNS service for domain registration, DNS routing, and health checking.",
+          "trick": "Route 53 = DNS 'routing,' and port 53 is literally the DNS port number.",
+          "scenario": "Which AWS service provides DNS resolution?",
+          "scenario_qnum": 528,
+          "seen_count": 5
+        },
+        {
+          "id": 102,
+          "name": "Amazon S3 storage classes",
+          "category": "Storage",
+          "desc": "A family of S3 tiers (Standard, Intelligent-Tiering, Standard-IA, One Zone-IA, Glacier tiers) that trade off retrieval speed and durability for storage cost, so you pay less for data you access less often.",
+          "trick": "Think of a spectrum from 'hot' and expensive (Standard) to 'cold' and cheap (Glacier) — pick the class that matches how often you'll actually touch the data.",
+          "scenario": "Which Amazon S3 storage class is MOST cost-effective for unknown access patterns?",
+          "scenario_qnum": 294,
+          "seen_count": 5
+        },
+        {
+          "id": 76,
+          "name": "Elasticity",
+          "category": "Management, Governance & Architecture",
+          "desc": "The ability of a cloud environment to automatically grow or shrink compute/storage resources to match real-time demand, so you pay only for what you're using.",
+          "trick": "Elasticity = a rubber band, not a fixed steel beam — capacity stretches up under load and snaps back down when demand drops.",
+          "scenario": "Which characteristic of the AWS Cloud helps users eliminate underutilized CPU capacity?",
+          "scenario_qnum": 139,
+          "seen_count": 5
+        },
+        {
+          "id": 38,
+          "name": "Network ACL",
+          "category": "Security, Identity & Compliance",
+          "desc": "A stateless, subnet-level virtual firewall in a VPC that allows or denies traffic based on rules evaluated in order, acting as an optional extra layer of defense outside security groups.",
+          "trick": "Network ACLs guard the SUBNET's front door and check both directions of traffic separately (stateless); security groups guard each individual instance and remember the conversation (stateful).",
+          "scenario": "Which AWS tool or feature acts as a VPC firewall at the subnet level?",
+          "scenario_qnum": 493,
+          "seen_count": 5
+        },
+        {
+          "id": 17,
+          "name": "AWS Budgets",
+          "category": "Pricing, Billing & Support",
+          "desc": "Set a monthly cost budget with alerts for actual spend or forecasted spend.",
+          "trick": "Exactly what it sounds like — your household budget app, but for AWS spend, with alerts.",
+          "scenario": "Which AWS Cloud service can send alerts to customers if custom spending thresholds are exceeded?",
+          "scenario_qnum": 141,
+          "seen_count": 4
+        },
+        {
+          "id": 3,
+          "name": "AWS Compute Optimizer",
+          "category": "Pricing, Billing & Support",
+          "desc": "Analyzes the configuration and utilization metrics of resources, provides optimization recommendations.",
+          "trick": "Optimizer = tells you if you're paying for a bigger instance than you actually use.",
+          "scenario": "Which AWS services or tools can identify rightsizing opportunities for Amazon EC2 instances? (Choose two.)",
+          "scenario_qnum": 9,
+          "seen_count": 4
+        },
+        {
+          "id": 2,
+          "name": "AWS Cost Explorer",
+          "category": "Pricing, Billing & Support",
+          "desc": "Visualize cost and usage over time, including the past 12 months and a forecast of the next 12 months.",
+          "trick": "'Explorer' = exploring trends visually — charts of the last 12 months and a forecast of the next 12.",
+          "scenario": "Which AWS service or tool helps users visualize, understand, and manage spending and usage over time?",
+          "scenario_qnum": 13,
+          "seen_count": 4
+        },
+        {
+          "id": 99,
+          "name": "AWS DMS",
+          "category": "Migration & Transfer",
+          "desc": "Migrate relational databases, data warehouses, NoSQL databases, and data stores to AWS.",
+          "trick": "DMS = Database Migration Service. If a question mentions moving a DATABASE, think DMS.",
+          "scenario": "A company wants to migrate its on-premises NoSQL workload to Amazon DynamoDB. Which AWS service will meet this requirement?",
+          "scenario_qnum": 389,
+          "seen_count": 4
+        },
+        {
+          "id": 9,
+          "name": "AWS Elastic Beanstalk",
+          "category": "Compute",
+          "desc": "Deploy and manage applications without knowledge of the underlying infrastructure.",
+          "trick": "Plant the beanstalk (upload your code) and it grows the infrastructure for you automatically.",
+          "scenario": "A developer wants to deploy an application quickly on AWS without manually creating the required resources. Which AWS service will meet these requirements?",
+          "scenario_qnum": 17,
+          "seen_count": 4
+        },
+        {
+          "id": 118,
+          "name": "AWS Enterprise Support",
+          "category": "Pricing, Billing & Support",
+          "desc": "Everything in Business, plus business-critical system down help within 15 minutes and a Technical Account Manager (TAM).",
+          "trick": "Escalating response time is the key exam detail: Basic = self-service only. Developer = business-hours help, 12h for 'system impaired.' Business = 24/7, 1 hour for 'production system down.' Enterprise = 24/7, 15 minutes for 'business-critical system down' (plus a Technical Account Manager).",
+          "scenario": "At what support level do users receive access to a support concierge?",
+          "scenario_qnum": 236,
+          "seen_count": 4
+        },
+        {
+          "id": 55,
+          "name": "AWS Global Accelerator",
+          "category": "Networking & Content Delivery",
+          "desc": "Improve availability and performance of applications through a global network of endpoints.",
+          "trick": "Accelerator = speeds up global users' traffic by routing it onto AWS's private backbone network.",
+          "scenario": "Which AWS services make use of global edge locations? (Choose two.)",
+          "scenario_qnum": 321,
+          "seen_count": 4
+        },
+        {
+          "id": 50,
+          "name": "AWS Secrets Manager",
+          "category": "Security, Identity & Compliance",
+          "desc": "Manage and rotate credentials to improve security.",
+          "trick": "Keeps and automatically rotates your passwords/API keys/DB credentials.",
+          "scenario": "Which AWS service can a company use to securely store and encrypt passwords for a database?",
+          "scenario_qnum": 217,
+          "seen_count": 4
+        },
+        {
+          "id": 4,
+          "name": "AWS Service Catalog",
+          "category": "Management, Governance & Architecture",
+          "desc": "Create and manage catalogs of IT services that are approved for AWS.",
+          "trick": "A catalog = a shopping list of pre-approved products employees are allowed to launch.",
+          "scenario": "A company wants to manage deployed IT services and govern its infrastructure as code (IaC) templates. Which AWS service will meet this requirement?",
+          "scenario_qnum": 12,
+          "seen_count": 4
+        },
+        {
+          "id": 94,
+          "name": "AWS Shield",
+          "category": "Security, Identity & Compliance",
+          "desc": "Provides protection against DDoS attacks for AWS resources.",
+          "trick": "A shield blocks incoming attacks — specifically DDoS floods.",
+          "scenario": "A company website is experiencing DDoS attacks. Which AWS service can help protect the company website against these attacks?",
+          "scenario_qnum": 223,
+          "seen_count": 4
+        },
+        {
+          "id": 48,
+          "name": "AWS Transit Gateway",
+          "category": "Networking & Content Delivery",
+          "desc": "Connects Amazon VPCs, AWS accounts, and on-premises networks to a single gateway.",
+          "trick": "Picture a house (your VPC): the Internet Gateway is the front door to the public internet, the NAT Gateway is a one-way peephole (outbound only) for private rooms, the Virtual Private Gateway is AWS's end of a VPN tunnel, the Customer Gateway is YOUR end of that tunnel, the Direct Connect Gateway links private lines across regions, and the Transit Gateway is the neighborhood's central hub connecting many houses (VPCs) at once.",
+          "scenario": "Which AWS service or feature gives users the ability to connect VPCs and on-premises networks to a central hub?",
+          "scenario_qnum": 443,
+          "seen_count": 4
+        },
+        {
+          "id": 39,
+          "name": "Amazon Aurora",
+          "category": "Database",
+          "desc": "Database engine that is compatible with MySQL and PostgreSQL.",
+          "trick": "Aurora = the dawn — AWS's own high-performance relational engine, drop-in compatible with MySQL/PostgreSQL.",
+          "scenario": "Which AWS services can host PostgreSQL databases? (Choose two.)",
+          "scenario_qnum": 469,
+          "seen_count": 4
+        },
+        {
+          "id": 36,
+          "name": "Amazon Macie",
+          "category": "Security, Identity & Compliance",
+          "desc": "Discovers sensitive data, PII, and security risks, then provides automated protection against those risks.",
+          "trick": "Macie is the 'nosy' service that goes digging through S3 to find exposed PII/sensitive data.",
+          "scenario": "Which security service automatically recognizes and classifies sensitive data or intellectual property on AWS?",
+          "scenario_qnum": 159,
+          "seen_count": 4
+        },
+        {
+          "id": 89,
+          "name": "Amazon S3 Glacier storage classes",
+          "category": "Storage",
+          "desc": "Secure and durable data archiving and long-term backup.",
+          "trick": "Glacier = frozen and slow to retrieve — the cheapest tier for data you rarely touch.",
+          "scenario": "A company stores a large amount of data that auditors access only twice each year. Which Amazon S3 storage class should the company use to store the data with the LOWEST cost?",
+          "scenario_qnum": 446,
+          "seen_count": 4
+        },
+        {
+          "id": 110,
+          "name": "Economies of scale",
+          "category": "Pricing, Billing & Support",
+          "desc": "The cost advantage AWS gains — and passes on to customers as lower prices over time — from operating massive amounts of infrastructure across millions of customers.",
+          "trick": "Because AWS buys hardware at a scale no single company could match, prices tend to drop over time — that saving flows down to you.",
+          "scenario": "Which of the following are economic benefits of using the AWS Cloud? (Choose two.)",
+          "scenario_qnum": 454,
+          "seen_count": 4
+        },
+        {
+          "id": 16,
+          "name": "IAM credential report",
+          "category": "Security, Identity & Compliance",
+          "desc": "A downloadable report listing all IAM users in an account and the status of their credentials — passwords, access keys, and MFA devices — including last-used dates.",
+          "trick": "The credential report is basically an audit spreadsheet of every user's login/keys, great for spotting stale or unused credentials.",
+          "scenario": "A company wants to verify if multi-factor authentication (MFA) is enabled for all users within its AWS accounts. Which AWS service or resource will meet this requirement?",
+          "scenario_qnum": 283,
+          "seen_count": 4
+        },
+        {
+          "id": 124,
+          "name": "Multi-AZ deployment",
+          "category": "Database",
+          "desc": "An RDS configuration that automatically maintains a synchronously replicated standby copy of a database in a different Availability Zone, and fails over to it automatically if the primary fails.",
+          "trick": "Multi-AZ = an automatic hot spare database sitting in a different building (AZ), ready to take over the instant the primary fails.",
+          "scenario": "A company wants to use the AWS Cloud to deploy an application globally. Which architecture deployment model should the company use to meet this requirement?",
+          "scenario_qnum": 341,
+          "seen_count": 4
+        },
+        {
+          "id": 21,
+          "name": "Operational excellence",
+          "category": "Management, Governance & Architecture",
+          "desc": "Support and run workloads effectively, gain insights into operations, and continuously improve processes.",
+          "trick": "Mnemonic: \"Old Sailors Really Prefer Calm Seas\" → Operational excellence, Security, Reliability, Performance efficiency, Cost optimization, Sustainability.",
+          "scenario": "Which of the following are pillars of the AWS Well-Architected Framework? (Choose two.)",
+          "scenario_qnum": 30,
+          "seen_count": 4
+        },
+        {
+          "id": 65,
+          "name": "Rightsizing",
+          "category": "Pricing, Billing & Support",
+          "desc": "The practice of matching instance types and sizes to actual workload performance and capacity needs, to eliminate paying for unused or oversized capacity.",
+          "trick": "Rightsizing = trading in an oversized SUV you never fill up for the compact car that actually fits your daily commute.",
+          "scenario": "Which cloud concept is demonstrated by using AWS Cost Explorer?",
+          "scenario_qnum": 396,
+          "seen_count": 4
+        },
+        {
+          "id": 49,
+          "name": "AWS Business Support",
+          "category": "Pricing, Billing & Support",
+          "desc": "All Trusted Advisor checks; 24/7 phone/web/chat; general guidance within 24 hours; system impaired within 12 hours; production system impaired within 4 hours; production system down within 1 hour.",
+          "trick": "Escalating response time is the key exam detail: Basic = self-service only. Developer = business-hours help, 12h for 'system impaired.' Business = 24/7, 1 hour for 'production system down.' Enterprise = 24/7, 15 minutes for 'business-critical system down' (plus a Technical Account Manager).",
+          "scenario": "Which AWS Support plan provides the full set of AWS Trusted Advisor checks at the LOWEST cost?",
+          "scenario_qnum": 520,
+          "seen_count": 3
+        },
+        {
+          "id": 31,
+          "name": "AWS CDK",
+          "category": "Analytics, Dev Tools & Other",
+          "desc": "The AWS Cloud Development Kit lets developers define cloud infrastructure using familiar programming languages (like Python, TypeScript, or Java), which is then synthesized into CloudFormation templates.",
+          "trick": "CDK = write infrastructure in real code (Python/TypeScript), not YAML — it compiles down to CloudFormation underneath.",
+          "scenario": "Which AWS service or feature gives users the ability to provision AWS infrastructure programmatically?",
+          "scenario_qnum": 580,
+          "seen_count": 3
+        },
+        {
+          "id": 97,
+          "name": "AWS Config",
+          "category": "Management, Governance & Architecture",
+          "desc": "Provides a detailed view of AWS resource configuration, changes in configuration, and compliance.",
+          "trick": "Config tracks HOW a resource is set up and whether it stays compliant over time — pair it with CloudTrail's WHO/WHAT.",
+          "scenario": "Which AWS service can generate information that can be used by external auditors?",
+          "scenario_qnum": 470,
+          "seen_count": 3
+        },
+        {
+          "id": 111,
+          "name": "AWS DataSync",
+          "category": "Migration & Transfer",
+          "desc": "A data transfer service that automates and accelerates moving large amounts of data between on-premises storage and AWS storage services (or between AWS storage services).",
+          "trick": "DataSync = 'sync' your files — ongoing, automated online data movement, unlike Snow Family's offline shipping.",
+          "scenario": "Which AWS service can migrate data between AWS storage services?",
+          "scenario_qnum": 402,
+          "seen_count": 3
+        },
+        {
+          "id": 5,
+          "name": "AWS Glue",
+          "category": "Analytics, Dev Tools & Other",
+          "desc": "Discover, prepare, move, and integrate data from multiple sources.",
+          "trick": "Glue sticks scattered data sources together — the classic serverless ETL service.",
+          "scenario": "Which of the following is a managed AWS service that is used specifically for extract, transform, and load (ETL) data?",
+          "scenario_qnum": 262,
+          "seen_count": 3
+        },
+        {
+          "id": 82,
+          "name": "AWS Health Dashboard",
+          "category": "Management, Governance & Architecture",
+          "desc": "Provides ongoing visibility into resource performance and availability of AWS services and user accounts.",
+          "trick": "Health = a check-up on the health/status of AWS services and your own account.",
+          "scenario": "Which AWS service should users use to learn about AWS service availability and operations?",
+          "scenario_qnum": 171,
+          "seen_count": 3
+        },
+        {
+          "id": 34,
+          "name": "AWS Identity and Access Management (IAM)",
+          "category": "Security, Identity & Compliance",
+          "desc": "Helps users securely control access to AWS resources.",
+          "trick": "IAM = Identity and Access Management — the master keyring: who can do what.",
+          "scenario": "Which AWS service is always provided at no charge?",
+          "scenario_qnum": 54,
+          "seen_count": 3
+        },
+        {
+          "id": 105,
+          "name": "AWS Migration Hub",
+          "category": "Migration & Transfer",
+          "desc": "A central location to discover existing servers, plan migrations, and track the status of each application migration.",
+          "trick": "Hub = one dashboard tracking the STATUS of every migration project happening at once.",
+          "scenario": "Which AWS service provides a single location to track the progress of application migrations?",
+          "scenario_qnum": 345,
+          "seen_count": 3
+        },
+        {
+          "id": 40,
+          "name": "AWS Outposts",
+          "category": "Compute",
+          "desc": "Extends AWS infrastructure, services, APIs, and tools to customer premises.",
+          "trick": "An 'outpost' is a base planted on foreign land — literally AWS hardware shipped into your own data center.",
+          "scenario": "A company has applications that control on-premises factory equipment. Which AWS service should the company use to run these applications with the LEAST latency?",
+          "scenario_qnum": 600,
+          "seen_count": 3
+        },
+        {
+          "id": 30,
+          "name": "AWS Pricing Calculator",
+          "category": "Pricing, Billing & Support",
+          "desc": "A free web-based tool for estimating the monthly cost of AWS services before you use them, useful for planning and comparing architecture options.",
+          "trick": "A price-estimate calculator you use BEFORE building anything — separate from Cost Explorer, which looks at costs you've already incurred.",
+          "scenario": "A company plans to migrate to AWS and wants to create cost estimates for its AWS use cases. Which AWS service or tool can the company use to meet these requirements?",
+          "scenario_qnum": 91,
+          "seen_count": 3
+        },
+        {
+          "id": 14,
+          "name": "AWS Region",
+          "category": "Networking & Content Delivery",
+          "desc": "An isolated geographic area made up of multiple, separate Availability Zones.",
+          "trick": "A Region is the big geographic box (e.g., 'us-east-1'); Availability Zones are the separate physical facilities inside it.",
+          "scenario": "Which option is a physical location of the AWS global infrastructure?",
+          "scenario_qnum": 22,
+          "seen_count": 3
+        },
+        {
+          "id": 79,
+          "name": "AWS Snowmobile",
+          "category": "Migration & Transfer",
+          "desc": "An exabyte-scale data transfer service that uses a literal shipping container on a truck to move massive amounts of data (over 10 PB) into AWS.",
+          "trick": "Snowmobile is genuinely a truck — the largest member of the Snow Family, for jobs too big even for a Snowball.",
+          "scenario": "A company needs to move 75 petabytes of data from its on-premises data centers to AWS. Which AWS service should the company use to meet these requirements MOST cost-effectively?",
+          "scenario_qnum": 355,
+          "seen_count": 3
+        },
+        {
+          "id": 61,
+          "name": "AWS Software Development Kit",
+          "category": "Other Services & Concepts",
+          "desc": "Use software development kits to develop applications in your preferred programming language.",
+          "trick": "SDK = the code libraries you `import` to call AWS from Python, Java, JS, etc.",
+          "scenario": "Which mechanism allows developers to access AWS services from application code?",
+          "scenario_qnum": 324,
+          "seen_count": 3
+        },
+        {
+          "id": 27,
+          "name": "Amazon Athena",
+          "category": "Analytics, Dev Tools & Other",
+          "desc": "Analyze data directly in Amazon S3 by using standard SQL.",
+          "trick": "Athena, the Greek goddess of wisdom, queries S3 straight from the shelf — no loading, no servers, just SQL wisdom.",
+          "scenario": "A company needs to use SQL syntax to perform a direct query of objects in an Amazon S3 bucket. Which AWS service can the company use to meet this requirement?",
+          "scenario_qnum": 550,
+          "seen_count": 3
+        },
+        {
+          "id": 120,
+          "name": "Amazon Connect",
+          "category": "Analytics, Dev Tools & Other",
+          "desc": "Omnichannel cloud contact center.",
+          "trick": "Connect = connecting a customer's call/chat to an agent — a cloud call center.",
+          "scenario": "A company wants to establish a private network connection between AWS and its corporate network. Which AWS service or feature will meet this requirement?",
+          "scenario_qnum": 326,
+          "seen_count": 3
+        },
+        {
+          "id": 67,
+          "name": "Amazon FSx",
+          "category": "Storage",
+          "desc": "Launch, run, and scale file systems in the cloud.",
+          "trick": "FSx covers specific, purpose-built file systems, like Windows File Server or Lustre for HPC.",
+          "scenario": "A company wants a fully managed Windows file server for its Windows-based applications. Which AWS service will meet this requirement?",
+          "scenario_qnum": 109,
+          "seen_count": 3
+        },
+        {
+          "id": 0,
+          "name": "Amazon Inspector",
+          "category": "Security, Identity & Compliance",
+          "desc": "Continuously scans AWS workloads for software vulnerabilities and unintended network exposure.",
+          "trick": "Like a home inspector, it continuously scans EC2/containers/Lambda for vulnerabilities.",
+          "scenario": "Which AWS service enables users to check for vulnerabilities on Amazon EC2 instances by using predefined assessment templates?",
+          "scenario_qnum": 175,
+          "seen_count": 3
+        },
+        {
+          "id": 122,
+          "name": "Amazon Neptune",
+          "category": "Database",
+          "desc": "Graph database service for highly connected datasets.",
+          "trick": "Neptune's moons are famously 'interconnected' in trivia — think connections, i.e., a graph database.",
+          "scenario": "Which AWS service provides a fully managed graph database for highly connected datasets?",
+          "scenario_qnum": 588,
+          "seen_count": 3
+        },
+        {
+          "id": 22,
+          "name": "Amazon SNS",
+          "category": "Other Services & Concepts",
+          "desc": "Provides message delivery from publishers to subscribers.",
+          "trick": "SNS = Simple Notification Service. One message broadcast out to many subscribers, like a megaphone (pub/sub, fan-out).",
+          "scenario": "Which AWS service can be used to send alerts when a specific Amazon CloudWatch alarm is invoked?",
+          "scenario_qnum": 495,
+          "seen_count": 3
+        },
+        {
+          "id": 56,
+          "name": "Amazon SQS",
+          "category": "Other Services & Concepts",
+          "desc": "Provides a queue to integrate and decouple distributed software systems and components.",
+          "trick": "SQS = a literal queue/line. Messages wait their turn so two systems don't have to talk directly (decoupling).",
+          "scenario": "Which AWS services can a company use to achieve a loosely coupled architecture? (Choose two.)",
+          "scenario_qnum": 140,
+          "seen_count": 3
+        },
+        {
+          "id": 139,
+          "name": "Application Load Balancer",
+          "category": "Networking & Content Delivery",
+          "desc": "A type of Elastic Load Balancer that operates at Layer 7 (HTTP/HTTPS) and can route traffic based on the content of the request, such as the URL path or hostname.",
+          "trick": "'Application' = Layer 7 awareness — it can read the actual URL/host and route smartly, unlike a simpler network-level load balancer.",
+          "scenario": "Which AWS service or resource can a company use to deploy AWS WAF rules?",
+          "scenario_qnum": 425,
+          "seen_count": 3
+        },
+        {
+          "id": 74,
+          "name": "Dedicated Hosts",
+          "category": "Pricing, Billing & Support",
+          "desc": "A physical host that is fully dedicated to the user.",
+          "trick": "Rent an analogy: On-Demand = a hotel room per night. Reserved/Savings Plans = a signed year-long lease (cheaper for commitment). Spot = a standby flight ticket (very cheap, but you can get bumped). Dedicated Host/Instance = renting a whole floor to yourself. Capacity Reservation = reserving the seat without signing any lease.",
+          "scenario": "A company has a compute workload that is steady, predictable, and uninterruptible. Which Amazon EC2 instance purchasing options meet these requirements MOST cost-effectively?",
+          "scenario_qnum": 128,
+          "seen_count": 3
+        },
+        {
+          "id": 64,
+          "name": "IAM roles",
+          "category": "Security, Identity & Compliance",
+          "desc": "An IAM identity with specific permissions that can be temporarily assumed by a user, application, or AWS service (like an EC2 instance), without needing long-term credentials.",
+          "trick": "A role is a 'costume' anyone trustworthy can temporarily put on — no permanent password or keys attached to it, unlike an IAM user.",
+          "scenario": "A company wants to grant users in one AWS account access to resources in another AWS account. The users do not currently have permission to access the resources.",
+          "scenario_qnum": 98,
+          "seen_count": 3
+        },
+        {
+          "id": 20,
+          "name": "Reliability",
+          "category": "Management, Governance & Architecture",
+          "desc": "The ability of a workload to perform its intended function correctly and consistently.",
+          "trick": "Mnemonic: \"Old Sailors Really Prefer Calm Seas\" → Operational excellence, Security, Reliability, Performance efficiency, Cost optimization, Sustainability.",
+          "scenario": "Which of the following are pillars of the AWS Well-Architected Framework? (Choose two.)",
+          "scenario_qnum": 30,
+          "seen_count": 3
+        },
+        {
+          "id": 15,
+          "name": "Security",
+          "category": "Management, Governance & Architecture",
+          "desc": "Protect data, systems, and assets by using cloud technologies to improve security.",
+          "trick": "Mnemonic: \"Old Sailors Really Prefer Calm Seas\" → Operational excellence, Security, Reliability, Performance efficiency, Cost optimization, Sustainability.",
+          "scenario": "Which options are AWS Cloud Adoption Framework (AWS CAF) perspectives? (Choose two.)",
+          "scenario_qnum": 439,
+          "seen_count": 3
+        },
+        {
+          "id": 71,
+          "name": "VPC Flow Logs",
+          "category": "Security, Identity & Compliance",
+          "desc": "Captures information about the IP traffic going to and from network interfaces in a VPC, useful for troubleshooting connectivity issues and for security/compliance monitoring.",
+          "trick": "Flow Logs are a network 'traffic camera' — they record who talked to whom, not the content, for later review.",
+          "scenario": "Which AWS service or feature gives users the ability to capture information about network traffic in a VPC?",
+          "scenario_qnum": 310,
+          "seen_count": 3
+        },
+        {
+          "id": 73,
+          "name": "AWS CLI",
+          "category": "Analytics, Dev Tools & Other",
+          "desc": "Interact with AWS services through commands in the command-line shell.",
+          "trick": "CLI = Command Line Interface, literally typing 'aws ...' commands in a terminal.",
+          "scenario": "A company wants a unified tool to provide a consistent method to interact with AWS services. Which AWS service or tool will meet this requirement?",
+          "scenario_qnum": 125,
+          "seen_count": 2
+        },
+        {
+          "id": 137,
+          "name": "AWS CloudHSM",
+          "category": "Security, Identity & Compliance",
+          "desc": "Provides a compute device that processes cryptographic operations and storage.",
+          "trick": "HSM = Hardware Security Module — a dedicated, single-tenant vault appliance for crypto keys.",
+          "scenario": "Which AWS service can a company use to manage encryption keys in the cloud?",
+          "scenario_qnum": 418,
+          "seen_count": 2
+        },
+        {
+          "id": 47,
+          "name": "AWS CloudShell",
+          "category": "Other Services & Concepts",
+          "desc": "A browser-based, pre-authenticated shell that users can launch directly from the console.",
+          "trick": "CloudShell is a terminal that's already logged in — one click from the console, no setup.",
+          "scenario": "Which AWS service provides command line access to AWS tools and resources directly from a web browser?",
+          "scenario_qnum": 69,
+          "seen_count": 2
+        },
+        {
+          "id": 104,
+          "name": "AWS CodeBuild",
+          "category": "Other Services & Concepts",
+          "desc": "Compiles source code, runs unit tests, and produces artifacts that are ready to deploy.",
+          "trick": "Build = the 'compile and test' stage of CI/CD.",
+          "scenario": "A company's application developers need to quickly provision and manage AWS services by using scripts. Which AWS offering should the developers use to meet these requirements?",
+          "scenario_qnum": 303,
+          "seen_count": 2
+        },
+        {
+          "id": 62,
+          "name": "AWS Firewall Manager",
+          "category": "Security, Identity & Compliance",
+          "desc": "Provides administration and maintenance tasks across multiple accounts and resources for a variety of protections.",
+          "trick": "Manager = the central control panel to roll out firewall/WAF/Shield rules across every account at once.",
+          "scenario": "Which AWS service or tool can be used to set up a firewall to control traffic going into and coming out of an Amazon VPC subnet?",
+          "scenario_qnum": 95,
+          "seen_count": 2
+        },
+        {
+          "id": 128,
+          "name": "AWS Lambda",
+          "category": "Compute",
+          "desc": "Run code without the need to provision or manage servers.",
+          "trick": "Lambda (λ) is the math symbol for a function — run a function, no server to manage.",
+          "scenario": "Which of the following AWS services are serverless? (Choose two.)",
+          "scenario_qnum": 361,
+          "seen_count": 2
+        },
+        {
+          "id": 53,
+          "name": "AWS Management Console",
+          "category": "Other Services & Concepts",
+          "desc": "Web application used to manage AWS resources.",
+          "trick": "This is simply the AWS website/dashboard itself, the one you click around in.",
+          "scenario": "A company wants to manage its AWS Cloud resources through a web interface. Which AWS service will meet this requirement?",
+          "scenario_qnum": 75,
+          "seen_count": 2
+        },
+        {
+          "id": 7,
+          "name": "AWS Professional Services",
+          "category": "Pricing, Billing & Support",
+          "desc": "A global team of AWS experts who work directly with customers to help plan, architect, and implement AWS-based solutions.",
+          "trick": "Think of it as hiring AWS's own consultants for a specific project.",
+          "scenario": "Which AWS team or offering helps users accelerate cloud adoption through paid engagements in any of several specialty practice areas?",
+          "scenario_qnum": 577,
+          "seen_count": 2
+        },
+        {
+          "id": 42,
+          "name": "Amazon AppStream 2.0",
+          "category": "Other Services & Concepts",
+          "desc": "Application streaming service that provides users with instant access to desktop applications from anywhere.",
+          "trick": "Stream a single app the way you'd stream a movie — instant access, nothing installed locally.",
+          "scenario": "A company wants to provide managed Windows virtual desktops and applications to its remote employees over secure network connections. Which AWS services can the company use to meet these requirements?",
+          "scenario_qnum": 64,
+          "seen_count": 2
+        },
+        {
+          "id": 107,
+          "name": "Amazon Detective",
+          "category": "Security, Identity & Compliance",
+          "desc": "Analyze, investigate, and identify the root cause of security findings or suspicious activities.",
+          "trick": "A Detective investigates AFTER an alarm goes off, to find the root cause.",
+          "scenario": "Which AWS service or resource can provide discounts on some AWS service costs in exchange for a spending commitment?",
+          "scenario_qnum": 267,
+          "seen_count": 2
+        },
+        {
+          "id": 115,
+          "name": "Amazon ECS",
+          "category": "Compute",
+          "desc": "Deploy, manage, and scale containerized applications.",
+          "trick": "ECS = Elastic Container Service — AWS's own native container orchestrator (no Kubernetes needed).",
+          "scenario": "Which AWS compute service gives users the ability to securely and reliably run containers at scale?",
+          "scenario_qnum": 492,
+          "seen_count": 2
+        },
+        {
+          "id": 68,
+          "name": "Amazon Personalize",
+          "category": "Analytics, Dev Tools & Other",
+          "desc": "A machine learning service that builds real-time, individualized product and content recommendations for applications, using the same technology as Amazon.com.",
+          "trick": "Personalize = the 'customers who bought this also bought…' engine, as a managed ML service you can plug into your own app.",
+          "scenario": "A company wants an AWS service to provide product recommendations based on its customer data. Which AWS service will meet this requirement?",
+          "scenario_qnum": 113,
+          "seen_count": 2
+        },
+        {
+          "id": 119,
+          "name": "Amazon Polly",
+          "category": "Other Services & Concepts",
+          "desc": "Convert text into lifelike speech.",
+          "trick": "Polly the parrot talks — text goes in, spoken audio comes out (text-to-speech).",
+          "scenario": "A company needs to search for text in documents that are stored in Amazon S3. Which AWS service will meet these requirements?",
+          "scenario_qnum": 320,
+          "seen_count": 2
+        },
+        {
+          "id": 144,
+          "name": "Amazon Rekognition",
+          "category": "Other Services & Concepts",
+          "desc": "Identify objects, people, text, scenes, and activities in images and videos.",
+          "trick": "'Recognition' spelled with a K — recognizes faces, objects, and scenes in images/video.",
+          "scenario": "Which AWS service provides machine learning capability to detect and analyze content in images and videos?",
+          "scenario_qnum": 485,
+          "seen_count": 2
+        },
+        {
+          "id": 43,
+          "name": "Amazon WorkSpaces",
+          "category": "Other Services & Concepts",
+          "desc": "Provision virtual, cloud-based desktops without the need to deploy hardware or install complex software.",
+          "trick": "Your whole desktop, delivered virtually — WorkSpaces = a cloud PC.",
+          "scenario": "A company wants to provide managed Windows virtual desktops and applications to its remote employees over secure network connections. Which AWS services can the company use to meet these requirements?",
+          "scenario_qnum": 64,
+          "seen_count": 2
+        },
+        {
+          "id": 78,
+          "name": "Availability Zone",
+          "category": "Networking & Content Delivery",
+          "desc": "One or more data centers within a Region.",
+          "trick": "Think of it like a delivery network zooming in: Region (country) → Availability Zone (city/data-center campus) → Edge Location (local post office) → Local Zone (AWS satellite office near a big city) → Wavelength (AWS embedded inside a phone carrier's 5G network).",
+          "scenario": "Which option is an environment that consists of one or more data centers?",
+          "scenario_qnum": 150,
+          "seen_count": 2
+        },
+        {
+          "id": 113,
+          "name": "Compute optimized instances",
+          "category": "Compute",
+          "desc": "An EC2 instance family (the C-series) designed for compute-intensive workloads that benefit from high-performance processors, such as batch processing or gaming servers.",
+          "trick": "'Compute optimized' = high CPU-to-memory ratio; picture the 'C' in C5/C6 instances standing for Compute.",
+          "scenario": "A company plans to run a compute-intensive workload that uses graphics processing units (GPUs). Which Amazon EC2 instance type should the company use?",
+          "scenario_qnum": 290,
+          "seen_count": 2
+        },
+        {
+          "id": 133,
+          "name": "Cost allocation tags",
+          "category": "Pricing, Billing & Support",
+          "desc": "Key-value labels applied to AWS resources that let you categorize and track costs by project, team, or environment in billing reports like Cost Explorer.",
+          "trick": "Tags = sticky notes on resources ('team:marketing') so your bill can be sliced and diced by who's actually spending what.",
+          "scenario": "A company wants to implement detailed tracking of its cloud costs by department and project. Which AWS feature or service should the company use?",
+          "scenario_qnum": 501,
+          "seen_count": 2
+        },
+        {
+          "id": 135,
+          "name": "Internet gateway",
+          "category": "Networking & Content Delivery",
+          "desc": "An Amazon VPC component that allows communication between a user's computer and the internet.",
+          "trick": "Picture a house (your VPC): the Internet Gateway is the front door to the public internet, the NAT Gateway is a one-way peephole (outbound only) for private rooms, the Virtual Private Gateway is AWS's end of a VPN tunnel, the Customer Gateway is YOUR end of that tunnel, the Direct Connect Gateway links private lines across regions, and the Transit Gateway is the neighborhood's central hub connecting many houses (VPCs) at once.",
+          "scenario": "Which component must be attached to a VPC to enable inbound internet access?",
+          "scenario_qnum": 516,
+          "seen_count": 2
+        },
+        {
+          "id": 136,
+          "name": "Loose coupling",
+          "category": "Management, Governance & Architecture",
+          "desc": "An architectural principle where components interact through intermediaries (like queues or event buses) rather than direct dependencies, so one component's failure or change doesn't cascade to others.",
+          "trick": "Loosely coupled = components talk through a queue/mailbox instead of calling each other directly, so one going down doesn't drag the other with it.",
+          "scenario": "Which AWS design principle emphasizes the reduction of interdependencies between components of an application?",
+          "scenario_qnum": 427,
+          "seen_count": 2
+        },
+        {
+          "id": 98,
+          "name": "Migration Evaluator",
+          "category": "Migration & Transfer",
+          "desc": "A free AWS assessment service that helps build a data-driven business case for migration by analyzing your current on-premises server usage and estimating AWS costs.",
+          "trick": "Migration Evaluator's job is specifically the business case/cost estimate BEFORE a migration — a different job than Application Discovery Service's technical inventory.",
+          "scenario": "Which complimentary AWS service or tool creates data-driven business cases for cloud planning?",
+          "scenario_qnum": 395,
+          "seen_count": 2
+        },
+        {
+          "id": 66,
+          "name": "Pay-as-you-go pricing",
+          "category": "Pricing, Billing & Support",
+          "desc": "An AWS pricing model where customers pay only for the exact compute, storage, or other resources they consume, with no upfront commitment or long-term contract required.",
+          "trick": "Pay-as-you-go = like an electricity bill, not a phone contract — you only pay for what you actually used this month.",
+          "scenario": "Which AWS benefit is demonstrated by on-demand technology services that enable companies to replace upfront fixed expenses with variable expenses?",
+          "scenario_qnum": 180,
+          "seen_count": 2
+        },
+        {
+          "id": 100,
+          "name": "AWS Application Composer",
+          "category": "Analytics, Dev Tools & Other",
+          "desc": "A visual, drag-and-drop canvas for designing serverless application architectures, which generates the underlying infrastructure-as-code template as you build.",
+          "trick": "Composer = composing a diagram; drag services onto a canvas and it writes the SAM/CloudFormation template for you.",
+          "scenario": "Which AWS service can a company use to visually design and build serverless applications?",
+          "scenario_qnum": 237,
+          "seen_count": 1
+        },
+        {
+          "id": 83,
+          "name": "AWS Application Discovery Service",
+          "category": "Migration & Transfer",
+          "desc": "Collects usage and configuration data about on-premises servers and databases to help plan a migration to AWS.",
+          "trick": "'Discovery' = discovering what you already have on-prem, BEFORE you plan the move.",
+          "scenario": "A company plans to migrate to the AWS Cloud. The company is gathering information about its on-premises infrastructure and requires information such as the hostname, IP address, and MAC address.",
+          "scenario_qnum": 176,
+          "seen_count": 1
+        },
+        {
+          "id": 114,
+          "name": "AWS Application Migration Service",
+          "category": "Migration & Transfer",
+          "desc": "Automated lift-and-shift (rehost) solution for migrations to AWS.",
+          "trick": "This is the 'just pick it up and move it as-is' (lift-and-shift) mover.",
+          "scenario": "A company wants to migrate unstructured data to AWS. The data needs to be securely moved with inflight encryption and end-to-end data validation.",
+          "scenario_qnum": 304,
+          "seen_count": 1
+        },
+        {
+          "id": 134,
+          "name": "AWS Architecture Center",
+          "category": "Analytics, Dev Tools & Other",
+          "desc": "AWS's library of reference architecture diagrams, best-practice guidance, and vetted architecture patterns for building on AWS.",
+          "trick": "Think of it as AWS's own architecture cookbook — reference diagrams, not a running service.",
+          "scenario": "Where can users find examples of AWS Cloud solution designs?",
+          "scenario_qnum": 408,
+          "seen_count": 1
+        },
+        {
+          "id": 140,
+          "name": "AWS Auto Scaling",
+          "category": "Compute",
+          "desc": "Monitors applications to automatically scale resources dynamically by adjusting capacity based on defined thresholds.",
+          "trick": "Scaling = growing or shrinking capacity automatically to match demand.",
+          "scenario": "A company deploys its application on Amazon EC2 instances. The application occasionally experiences sudden increases in demand.",
+          "scenario_qnum": 432,
+          "seen_count": 1
+        },
+        {
+          "id": 132,
+          "name": "AWS Backup",
+          "category": "Storage",
+          "desc": "Centralize and automate backups of data from AWS storage services and on-premises storage systems.",
+          "trick": "Exactly what it says — one central place to automate backups across many AWS services.",
+          "scenario": "A company wants to define a central data protection policy that works across AWS services for compute, storage, and database resources. Which AWS service will meet this requirement?",
+          "scenario_qnum": 400,
+          "seen_count": 1
+        },
+        {
+          "id": 92,
+          "name": "AWS Batch",
+          "category": "Compute",
+          "desc": "Run batch computing workloads.",
+          "trick": "Batch = baking a batch of cookies overnight — queue up jobs, let them run, no babysitting.",
+          "scenario": "A company needs to plan, schedule, and run hundreds of thousands of computing jobs on AWS. Which AWS service can the company use to meet this requirement?",
+          "scenario_qnum": 207,
+          "seen_count": 1
+        },
+        {
+          "id": 84,
+          "name": "AWS Cloud Adoption Framework (AWS CAF)",
+          "category": "Analytics, Dev Tools & Other",
+          "desc": "Guidance and best practices, organized into business, people, governance, platform, security, and operations perspectives, that helps organizations plan and execute their cloud adoption journey.",
+          "trick": "CAF is a business/organizational roadmap for adopting the cloud — not a technical service, a framework of perspectives.",
+          "scenario": "A company is planning to migrate its application to the AWS Cloud. Which AWS tool or set of resources should the company use to analyze and assess its readiness for migration?",
+          "scenario_qnum": 178,
+          "seen_count": 1
+        },
+        {
+          "id": 138,
+          "name": "AWS CodeDeploy",
+          "category": "Other Services & Concepts",
+          "desc": "Automate application deployments to on-premises instances or select AWS resources.",
+          "trick": "Deploy = the 'ship it to servers' stage of CI/CD.",
+          "scenario": "Which AWS service or tool gives a company the ability to release application changes in an automated way?",
+          "scenario_qnum": 421,
+          "seen_count": 1
+        },
+        {
+          "id": 149,
+          "name": "AWS Control Tower",
+          "category": "Management, Governance & Architecture",
+          "desc": "Set up and govern a multi-account environment.",
+          "trick": "An airport control tower oversees many planes at once — Control Tower oversees many AWS accounts at once.",
+          "scenario": "A company with multiple accounts and teams wants to set up a new multi-account AWS environment. Which AWS service supports this requirement?",
+          "scenario_qnum": 574,
+          "seen_count": 1
+        },
+        {
+          "id": 91,
+          "name": "AWS Cost and Usage Report",
+          "category": "Pricing, Billing & Support",
+          "desc": "Contains the most comprehensive set of cost and usage data available.",
+          "trick": "CUR = the most detailed, 'no line item left behind' bill — the raw data warehouse of your spend.",
+          "scenario": "A company wants to create Amazon QuickSight dashboards every week by using its billing data. Which AWS feature or tool can the company use to meet these requirements?",
+          "scenario_qnum": 204,
+          "seen_count": 1
+        },
+        {
+          "id": 147,
+          "name": "AWS Developer Forums",
+          "category": "Analytics, Dev Tools & Other",
+          "desc": "AWS's online community forum where users can ask technical questions and get help from other developers and AWS staff.",
+          "trick": "A community Q&A board — the free, peer-support option, not a paid support plan.",
+          "scenario": "Which benefit is always free of charge with AWS, regardless of a user’s AWS Support plan?",
+          "scenario_qnum": 556,
+          "seen_count": 1
+        },
+        {
+          "id": 52,
+          "name": "AWS KMS",
+          "category": "Security, Identity & Compliance",
+          "desc": "Create and control cryptographic keys that protect user data.",
+          "trick": "KMS = Key Management Service. If it's about creating/rotating ENCRYPTION KEYS, it's KMS.",
+          "scenario": "Which AWS service is used to provide encryption for Amazon EBS?",
+          "scenario_qnum": 74,
+          "seen_count": 1
+        },
+        {
+          "id": 106,
+          "name": "AWS License Manager",
+          "category": "Management, Governance & Architecture",
+          "desc": "Manage software licenses from software vendors centrally across AWS and on-premises environments.",
+          "trick": "A librarian tracking who's borrowed which book — License Manager tracks who's using which software license.",
+          "scenario": "A company acquired another corporation. The company now has two AWS accounts.",
+          "scenario_qnum": 260,
+          "seen_count": 1
+        },
+        {
+          "id": 127,
+          "name": "AWS Local Zones",
+          "category": "Networking & Content Delivery",
+          "desc": "Provides low-latency access to applications by placing AWS resources close to large population and industry centers.",
+          "trick": "Think of it like a delivery network zooming in: Region (country) → Availability Zone (city/data-center campus) → Edge Location (local post office) → Local Zone (AWS satellite office near a big city) → Wavelength (AWS embedded inside a phone carrier's 5G network).",
+          "scenario": "A company wants to deploy some of its resources in the AWS Cloud. To meet regulatory requirements, the data must remain local and on premises.",
+          "scenario_qnum": 360,
+          "seen_count": 1
+        },
+        {
+          "id": 90,
+          "name": "AWS Partner Network (APN)",
+          "category": "Pricing, Billing & Support",
+          "desc": "The global partner program for businesses that build solutions and services on AWS, including consulting and technology partners.",
+          "trick": "APN = AWS's ecosystem of certified partner companies, not a technical tool.",
+          "scenario": "A company needs to engage third-party consultants to help maintain and support its AWS environment and the company’s business needs. Which AWS service or resource will meet these requirements?",
+          "scenario_qnum": 203,
+          "seen_count": 1
+        },
+        {
+          "id": 51,
+          "name": "AWS PrivateLink",
+          "category": "Networking & Content Delivery",
+          "desc": "Provides private connectivity between VPCs, AWS services, and on-premises networks without exposing traffic to the public internet.",
+          "trick": "PrivateLink keeps traffic to AWS services 'private' — off the public internet entirely, even though it's still within AWS's network.",
+          "scenario": "Which AWS service or feature can be used to create a private connection between an on-premises workload and an AWS Cloud workload?",
+          "scenario_qnum": 73,
+          "seen_count": 1
+        },
+        {
+          "id": 148,
+          "name": "AWS Resource Explorer",
+          "category": "Management, Governance & Architecture",
+          "desc": "Lets you search for and discover AWS resources across multiple Regions and accounts from a single, unified view.",
+          "trick": "Resource Explorer is basically a search engine across all your Regions/accounts — 'where did I put that resource?'",
+          "scenario": "A company wants to estimate the cost for its AWS architecture solution before migration. Which AWS service or feature will meet this requirement?",
+          "scenario_qnum": 570,
+          "seen_count": 1
+        },
+        {
+          "id": 32,
+          "name": "AWS STS",
+          "category": "Security, Identity & Compliance",
+          "desc": "The AWS Security Token Service issues temporary, limited-privilege security credentials for IAM users, federated users, or applications.",
+          "trick": "STS = temporary keys with an expiration timer, instead of long-lived access keys.",
+          "scenario": "A company is developing an application that uses multiple AWS services. The application needs to use temporary, limited-privilege credentials for authentication with other AWS APIs.",
+          "scenario_qnum": 52,
+          "seen_count": 1
+        },
+        {
+          "id": 143,
+          "name": "AWS Schema Conversion Tool",
+          "category": "Other Services & Concepts",
+          "desc": "Convert an existing database schema from one database engine to another.",
+          "trick": "SCT = Schema Conversion Tool. Think of it as a translator for database 'languages' (e.g., Oracle → Aurora).",
+          "scenario": "Which combination of AWS services can be used to move a commercial relational database to an Amazon-managed open-source database? (Choose two.)",
+          "scenario_qnum": 478,
+          "seen_count": 1
+        },
+        {
+          "id": 33,
+          "name": "AWS Security Hub",
+          "category": "Security, Identity & Compliance",
+          "desc": "Collects security data across accounts and identifies priority security issues.",
+          "trick": "Hub = one central inbox aggregating findings from GuardDuty, Inspector, Macie, etc.",
+          "scenario": "Which AWS service is a cloud security posture management (CSPM) service that aggregates alerts from various AWS services and partner products in a standardized format?",
+          "scenario_qnum": 53,
+          "seen_count": 1
+        },
+        {
+          "id": 151,
+          "name": "AWS Shield Advanced",
+          "category": "Security, Identity & Compliance",
+          "desc": "The paid tier of AWS Shield, adding enhanced DDoS protection, 24/7 access to the DDoS Response Team, and cost protection during attacks, on top of the free Shield Standard tier.",
+          "trick": "Shield Standard is free and automatic; Shield Advanced is the paid upgrade with a dedicated response team.",
+          "scenario": "A company's cloud environment includes Amazon EC2 instances and Application Load Balancers. The company wants to improve protections for its cloud resources against DDoS attacks.",
+          "scenario_qnum": 589,
+          "seen_count": 1
+        },
+        {
+          "id": 155,
+          "name": "AWS Site-to-Site VPN",
+          "category": "Networking & Content Delivery",
+          "desc": "Establishes an encrypted connection between an on-premises network and an Amazon VPC over the public internet.",
+          "trick": "The 'Site-to-Site' name says it — connects your whole office site to your VPC site, via an internet-based tunnel.",
+          "scenario": "A company wants to set up a secure network connection from on premises to the AWS Cloud within 1 week. Which solution will meet these requirements?",
+          "scenario_qnum": 608,
+          "seen_count": 1
+        },
+        {
+          "id": 86,
+          "name": "AWS Snowball Edge",
+          "category": "Migration & Transfer",
+          "desc": "A physical, ruggedized device from the AWS Snow Family used to migrate large amounts of data into AWS, or to run compute/storage at the edge in disconnected locations.",
+          "trick": "Snowball Edge is the 'briefcase-sized' member of the Snow Family — for terabyte-to-low-petabyte jobs and edge compute.",
+          "scenario": "A company has a fleet of cargo ships. The cargo ships have sensors that collect data at sea, where there is intermittent or no internet connectivity.",
+          "scenario_qnum": 191,
+          "seen_count": 1
+        },
+        {
+          "id": 131,
+          "name": "AWS Step Functions",
+          "category": "Other Services & Concepts",
+          "desc": "Integrate with Lambda functions and view application workflows as a series of event-driven steps.",
+          "trick": "'Step' is the giveaway — a visual flowchart of steps (a state machine) stitching Lambda calls together.",
+          "scenario": "Which AWS service uses AWS Compute Optimizer to provide sizing recommendations based on workload metrics?",
+          "scenario_qnum": 374,
+          "seen_count": 1
+        },
+        {
+          "id": 117,
+          "name": "AWS Systems Manager",
+          "category": "Management, Governance & Architecture",
+          "desc": "Organize, monitor, and automate management tasks on AWS resources.",
+          "trick": "The ops toolbox — patch servers, run remote commands, store parameters, all from one place.",
+          "scenario": "An ecommerce company wants to use Amazon EC2 Auto Scaling to add and remove EC2 instances based on CPU utilization. Which AWS service or feature can initiate an Amazon EC2 Auto Scaling action to achieve this goal?",
+          "scenario_qnum": 314,
+          "seen_count": 1
+        },
+        {
+          "id": 72,
+          "name": "AWS Systems Manager Parameter Store",
+          "category": "Management, Governance & Architecture",
+          "desc": "A secure, hierarchical storage service for configuration data and secrets (like passwords or license keys), which application code can retrieve at runtime.",
+          "trick": "Parameter Store is a free key-value shelf for config/secrets, a lighter alternative to Secrets Manager's automatic rotation.",
+          "scenario": "A company wants to design a centralized storage system to manage the configuration data and passwords for its critical business applications. Which AWS service or capability will meet these requirements MOST cost-effectively?",
+          "scenario_qnum": 120,
+          "seen_count": 1
+        },
+        {
+          "id": 108,
+          "name": "AWS Transfer Family",
+          "category": "Migration & Transfer",
+          "desc": "Transfer files in to and out of AWS storage services.",
+          "trick": "The managed SFTP/FTPS/FTP mover for files — 'Transfer' says it all.",
+          "scenario": "A team of researchers is going to collect data at remote locations around the world. Many locations do not have internet connectivity.",
+          "scenario_qnum": 270,
+          "seen_count": 1
+        },
+        {
+          "id": 85,
+          "name": "AWS VPN",
+          "category": "Networking & Content Delivery",
+          "desc": "Establish a secure and private tunnel from on premises to the cloud.",
+          "trick": "VPN = the encrypted tunnel over the public internet, cheaper (but less consistent) than Direct Connect.",
+          "scenario": "Which AWS services or features enable users to connect on-premises networks to a VPC? (Choose two.)",
+          "scenario_qnum": 181,
+          "seen_count": 1
+        },
+        {
+          "id": 103,
+          "name": "AWS Well-Architected Framework",
+          "category": "Management, Governance & Architecture",
+          "desc": "The overall set of AWS guidance built around six pillars (operational excellence, security, reliability, performance efficiency, cost optimization, sustainability) for designing and evaluating cloud architectures.",
+          "trick": "The Framework is the guidance/document itself; the Well-Architected Tool is the interactive service that scores your workload against it.",
+          "scenario": "A company has migrated its workloads to AWS. The company wants to adopt AWS at scale and operate more efficiently and securely.",
+          "scenario_qnum": 252,
+          "seen_count": 1
+        },
+        {
+          "id": 145,
+          "name": "AWS customer carbon footprint tool",
+          "category": "Analytics, Dev Tools & Other",
+          "desc": "A dashboard that shows the estimated carbon emissions associated with a customer's AWS resource usage, supporting the sustainability pillar.",
+          "trick": "This is your AWS 'carbon bill' — visualizing environmental impact the way Cost Explorer visualizes dollars.",
+          "scenario": "A company wants its AWS usage to be more sustainable. The company wants to track, measure, review, and forecast polluting emissions that result from its AWS applications.",
+          "scenario_qnum": 486,
+          "seen_count": 1
+        },
+        {
+          "id": 154,
+          "name": "Access keys",
+          "category": "Security, Identity & Compliance",
+          "desc": "A long-term credential pair (an access key ID and a secret access key) used to make programmatic requests to AWS from the CLI or SDKs.",
+          "trick": "Access keys are for CODE/CLI to log in programmatically — a username/password is for a human logging into the console.",
+          "scenario": "A developer needs to interact with AWS by using the AWS CLI. Which security feature or AWS service must be provisioned in the developer's account to meet this requirement?",
+          "scenario_qnum": 605,
+          "seen_count": 1
+        },
+        {
+          "id": 129,
+          "name": "Amazon CodeGuru",
+          "category": "Analytics, Dev Tools & Other",
+          "desc": "A developer tool that uses machine learning to give automated code reviews and application performance recommendations.",
+          "trick": "CodeGuru is an ML-powered reviewer that reads your code and flags bugs or performance issues before a human has to.",
+          "scenario": "Which AWS service supports the deployment and management of applications in the AWS Cloud?",
+          "scenario_qnum": 366,
+          "seen_count": 1
+        },
+        {
+          "id": 116,
+          "name": "Amazon EBS",
+          "category": "Storage",
+          "desc": "Block-level storage volumes for use with EC2 instances.",
+          "trick": "EBS = Elastic Block Store — think of it as the 'hard drive' plugged into a single EC2 instance.",
+          "scenario": "A company wants durable storage for static content and infinitely scalable data storage infrastructure at the lowest cost. Which AWS service should the company choose?",
+          "scenario_qnum": 313,
+          "seen_count": 1
+        },
+        {
+          "id": 46,
+          "name": "Amazon EBS snapshots",
+          "category": "Storage",
+          "desc": "Point-in-time, incremental backups of an EBS volume, stored in Amazon S3, that can be used to restore or create new volumes.",
+          "trick": "A snapshot is a 'save point' for your EC2 hard drive — only the changed blocks are stored each time, keeping it cheap.",
+          "scenario": "Which AWS services or features provide disaster recovery solutions for Amazon EC2 instances? (Choose two.)",
+          "scenario_qnum": 68,
+          "seen_count": 1
+        },
+        {
+          "id": 80,
+          "name": "Amazon EC2 Auto Scaling",
+          "category": "Compute",
+          "desc": "Automatically adds or removes EC2 instances in a group according to conditions you define, to maintain application availability and control cost.",
+          "trick": "This is the EC2-specific flavor of Auto Scaling: it grows/shrinks your fleet of instances, not other resource types.",
+          "scenario": "A company wants to automatically add and remove Amazon EC2 instances. The company wants the EC2 instances to adjust to varying workloads dynamically.",
+          "scenario_qnum": 157,
+          "seen_count": 1
+        },
+        {
+          "id": 142,
+          "name": "Amazon EFS",
+          "category": "Storage",
+          "desc": "Serverless, fully scalable shared file system.",
+          "trick": "EFS = Elastic File System — a shared network drive many EC2 instances can mount at once.",
+          "scenario": "Which AWS service allows for file sharing between multiple Amazon EC2 instances?",
+          "scenario_qnum": 473,
+          "seen_count": 1
+        },
+        {
+          "id": 126,
+          "name": "Amazon EKS",
+          "category": "Compute",
+          "desc": "Run Kubernetes without the need to install, operate, or maintain the Kubernetes control plane or nodes.",
+          "trick": "The 'K' in EKS = Kubernetes. If the question says Kubernetes, the answer is EKS.",
+          "scenario": "Which AWS service can companies use to create infrastructure from code?",
+          "scenario_qnum": 353,
+          "seen_count": 1
+        },
+        {
+          "id": 146,
+          "name": "Amazon EventBridge",
+          "category": "Other Services & Concepts",
+          "desc": "Use events to connect application components together and build scalable event-driven applications.",
+          "trick": "A 'bridge' between events — when something happens in one app, EventBridge routes the news to another.",
+          "scenario": "A user wants to invoke an AWS Lambda function when an Amazon EC2 instance enters the “stopping” state. Which AWS service is appropriate for this use case?",
+          "scenario_qnum": 502,
+          "seen_count": 1
+        },
+        {
+          "id": 153,
+          "name": "Amazon Lex",
+          "category": "Other Services & Concepts",
+          "desc": "Build conversational interfaces for applications that use voice and text.",
+          "trick": "Lex is Alexa's little sibling — same tech, used to build your own voice/text chatbots.",
+          "scenario": "A company wants to add a conversational chatbot to its website. Which AWS service can the company use to meet this requirement?",
+          "scenario_qnum": 598,
+          "seen_count": 1
+        },
+        {
+          "id": 152,
+          "name": "Amazon Lightsail",
+          "category": "Compute",
+          "desc": "Launch projects quickly from a simple management interface.",
+          "trick": "Lightsail = a small, easy-to-hoist sail — the beginner-friendly, all-in-one VPS for simple projects.",
+          "scenario": "A developer who has no AWS Cloud experience wants to use AWS technology to build a web application. Which AWS service should the developer use to start building the application?",
+          "scenario_qnum": 594,
+          "seen_count": 1
+        },
+        {
+          "id": 45,
+          "name": "Amazon Machine Images (AMIs)",
+          "category": "Compute",
+          "desc": "A template that contains the software configuration (operating system, application server, and applications) required to launch an EC2 instance.",
+          "trick": "An AMI is the 'master copy' or blueprint you stamp out new EC2 instances from.",
+          "scenario": "Which AWS services or features provide disaster recovery solutions for Amazon EC2 instances? (Choose two.)",
+          "scenario_qnum": 68,
+          "seen_count": 1
+        },
+        {
+          "id": 130,
+          "name": "Amazon QuickSight Q",
+          "category": "Analytics, Dev Tools & Other",
+          "desc": "A natural-language query feature within Amazon QuickSight that lets users type plain-English questions and get instant visual answers from their data.",
+          "trick": "QuickSight Q lets you literally type a question in English and get a chart back — no SQL needed.",
+          "scenario": "A company wants to integrate natural language processing (NLP) into business intelligence (BI) dashboards. The company wants to ask questions and receive answers with relevant visualizations.",
+          "scenario_qnum": 367,
+          "seen_count": 1
+        },
+        {
+          "id": 57,
+          "name": "Amazon S3 Multi-Region Access Points",
+          "category": "Storage",
+          "desc": "A single global endpoint that routes S3 requests to the closest replicated bucket across multiple AWS Regions, simplifying multi-region application architectures.",
+          "trick": "One access point, many regional buckets behind it — S3 automatically routes each request to the nearest copy.",
+          "scenario": "A user wants to review all Amazon S3 buckets with ACLs and S3 bucket policies in the S3 console. Which AWS service or resource will meet this requirement?",
+          "scenario_qnum": 83,
+          "seen_count": 1
+        },
+        {
+          "id": 109,
+          "name": "Amazon S3 Object Lock",
+          "category": "Storage",
+          "desc": "Lets you store objects in S3 using a write-once-read-many (WORM) model, preventing an object from being deleted or overwritten for a fixed retention period.",
+          "trick": "Object Lock = a literal padlock; data can't be deleted or changed even by an admin, until the timer expires.",
+          "scenario": "A company wants to save costs by archiving data that is no longer frequently accessed by end users. Which Amazon S3 feature will meet this requirement?",
+          "scenario_qnum": 274,
+          "seen_count": 1
+        },
+        {
+          "id": 77,
+          "name": "Amazon S3 Transfer Acceleration",
+          "category": "Storage",
+          "desc": "Speeds up transferring files to and from S3 over long distances by routing traffic through Amazon CloudFront's globally distributed edge locations.",
+          "trick": "Transfer Acceleration = uploading to S3 gets a 'CloudFront shortcut' for long-distance transfers instead of the raw internet path.",
+          "scenario": "A company needs to quickly and securely move files over long distances between its client and an Amazon S3 bucket. Which S3 feature will meet this requirement?",
+          "scenario_qnum": 143,
+          "seen_count": 1
+        },
+        {
+          "id": 10,
+          "name": "Amazon S3 Versioning",
+          "category": "Storage",
+          "desc": "Keeps multiple variants of an object in the same S3 bucket, protecting against accidental overwrites or deletions by preserving every previous version.",
+          "trick": "Versioning = S3 keeps every 'save' you've ever made to a file, so you can always roll back.",
+          "scenario": "A company is storing sensitive customer data in an Amazon S3 bucket. The company wants to protect the data from accidental deletion or overwriting.",
+          "scenario_qnum": 18,
+          "seen_count": 1
+        },
+        {
+          "id": 123,
+          "name": "Amazon S3 access control lists (ACLs)",
+          "category": "Security, Identity & Compliance",
+          "desc": "A legacy S3 access-management mechanism that grants basic read/write permissions on individual buckets or objects to specific AWS accounts or predefined groups.",
+          "trick": "S3 ACLs are the older, more limited way to grant access — bucket policies and IAM are the more modern, more flexible approach AWS recommends today.",
+          "scenario": "A company wants to track tags, buckets, and prefixes for its Amazon S3 objects. Which S3 feature will meet this requirement?",
+          "scenario_qnum": 338,
+          "seen_count": 1
+        },
+        {
+          "id": 101,
+          "name": "Amazon Timestream",
+          "category": "Analytics, Dev Tools & Other",
+          "desc": "A fast, serverless time-series database purpose-built to store and analyze trillions of events per day, such as IoT sensor or application monitoring data.",
+          "trick": "Timestream is a database purpose-built for data that's naturally a sequence of timestamped points, like sensor readings.",
+          "scenario": "A company wants a time-series database service that makes it easier to store and analyze trillions of events each day. Which AWS service will meet this requirement?",
+          "scenario_qnum": 248,
+          "seen_count": 1
+        },
+        {
+          "id": 121,
+          "name": "Amazon Transcribe",
+          "category": "Other Services & Concepts",
+          "desc": "Automatic speech recognition that converts audio to text.",
+          "trick": "Think of a court transcriber typing what's spoken — audio in, text out (speech-to-text).",
+          "scenario": "Which AWS service converts text to lifelike voices?",
+          "scenario_qnum": 328,
+          "seen_count": 1
+        },
+        {
+          "id": 150,
+          "name": "Amazon VPC",
+          "category": "Networking & Content Delivery",
+          "desc": "Launch AWS resources in logically isolated virtual networks.",
+          "trick": "VPC = Virtual Private Cloud — your own fenced-off private section of the AWS network.",
+          "scenario": "Which AWS service or feature allows a company to have its own logically isolated section of the AWS Cloud?",
+          "scenario_qnum": 581,
+          "seen_count": 1
+        },
+        {
+          "id": 141,
+          "name": "Auto Scaling group",
+          "category": "Compute",
+          "desc": "A logical collection of EC2 instances managed together for scaling and health-check purposes, defined by a minimum, maximum, and desired instance count.",
+          "trick": "The Auto Scaling group is the 'container' of rules; EC2 Auto Scaling is the mechanism that actually adds/removes instances inside it.",
+          "scenario": "A company wants a solution that will automatically adjust the number of Amazon EC2 instances that are being used based on the current load. Which AWS offering will meet these requirements?",
+          "scenario_qnum": 465,
+          "seen_count": 1
+        },
+        {
+          "id": 75,
+          "name": "Consolidated billing",
+          "category": "Pricing, Billing & Support",
+          "desc": "A feature of AWS Organizations that combines usage from all member accounts onto a single paying account's bill, often unlocking volume pricing discounts.",
+          "trick": "Consolidated billing = one invoice for the whole company's many AWS accounts, and everyone's usage counts toward the same volume discount tier.",
+          "scenario": "A company wants to migrate its on-premises workloads to the AWS Cloud. The company wants to separate workloads for chargeback to different departments.",
+          "scenario_qnum": 131,
+          "seen_count": 1
+        },
+        {
+          "id": 69,
+          "name": "EC2 Image Builder",
+          "category": "Compute",
+          "desc": "Automates the creation, testing, and maintenance of golden Amazon Machine Images (AMIs) and container images, keeping them patched and up to date.",
+          "trick": "Image Builder is a factory line that continuously bakes fresh, patched AMIs so you're never launching instances from a stale image.",
+          "scenario": "Which fully managed AWS service assists with the creation, testing, and management of custom Amazon EC2 images?",
+          "scenario_qnum": 116,
+          "seen_count": 1
+        },
+        {
+          "id": 125,
+          "name": "High availability",
+          "category": "Management, Governance & Architecture",
+          "desc": "A system design goal of minimizing downtime, typically achieved by removing single points of failure through redundancy across multiple Availability Zones.",
+          "trick": "High availability = no single broken piece takes the whole system down, usually by duplicating it across AZs.",
+          "scenario": "Which architecture concept describes the ability to deploy resources on demand and release resources when they are no longer needed?",
+          "scenario_qnum": 347,
+          "seen_count": 1
+        },
+        {
+          "id": 88,
+          "name": "NAT gateway",
+          "category": "Networking & Content Delivery",
+          "desc": "A network address translation service that lets instances in a private subnet connect out to services outside the VPC.",
+          "trick": "Picture a house (your VPC): the Internet Gateway is the front door to the public internet, the NAT Gateway is a one-way peephole (outbound only) for private rooms, the Virtual Private Gateway is AWS's end of a VPN tunnel, the Customer Gateway is YOUR end of that tunnel, the Direct Connect Gateway links private lines across regions, and the Transit Gateway is the neighborhood's central hub connecting many houses (VPCs) at once.",
+          "scenario": "A company has an Amazon EC2 instance in a private subnet. The company wants to initiate a connection to the internet to pull operating system updates while preventing traffic from the internet from accessing the EC2 instance.",
+          "scenario_qnum": 199,
+          "seen_count": 1
+        },
+        {
+          "id": 54,
+          "name": "Scalability",
+          "category": "Management, Governance & Architecture",
+          "desc": "The capacity of a system to handle a growing amount of work by adding resources, either by making individual resources bigger (vertical) or adding more of them (horizontal).",
+          "trick": "Scalability is the general ABILITY to grow; elasticity is that ability happening automatically, in both directions, in real time.",
+          "scenario": "Which AWS Cloud benefit is shown by an architecture’s ability to withstand failures with minimal downtime?",
+          "scenario_qnum": 77,
+          "seen_count": 1
+        },
+        {
+          "id": 95,
+          "name": "Server-side encryption (SSE-KMS)",
+          "category": "Security, Identity & Compliance",
+          "desc": "An S3 encryption option where AWS encrypts your data at rest using encryption keys that are created and managed through AWS KMS, giving you audit trails and key-rotation control.",
+          "trick": "SSE-KMS = AWS still does the encrypting for you (like all server-side options), but now KMS gives you visibility and control over the actual key.",
+          "scenario": "Which encryption types can be used to protect objects at rest in Amazon S3? (Choose two.)",
+          "scenario_qnum": 219,
+          "seen_count": 1
+        }
+      ]
+    </script>
+    <script id="glossary-categories" type="application/json">
+      [
+        "Pricing, Billing & Support",
+        "Management, Governance & Architecture",
+        "Security, Identity & Compliance",
+        "Database",
+        "Compute",
+        "Networking & Content Delivery",
+        "Storage",
+        "Analytics, Dev Tools & Other",
+        "Migration & Transfer",
+        "Other Services & Concepts"
+      ]
+    </script>
+    <script>
+      const TERMS = JSON.parse(
+        document.getElementById("glossary-data").textContent,
+      );
+      const CATEGORIES = JSON.parse(
+        document.getElementById("glossary-categories").textContent,
+      );
+
+      document.getElementById("totalTerms").textContent = TERMS.length;
+      document.getElementById("totalCats").textContent = CATEGORIES.length;
+      document.getElementById("topTerm").textContent = TERMS[0]
+        ? TERMS[0].name
+        : "—";
+
+      /* ---------------- Tabs ---------------- */
+      document.querySelectorAll(".tab-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          document
+            .querySelectorAll(".tab-btn")
+            .forEach((b) => b.classList.remove("active"));
+          document
+            .querySelectorAll(".view")
+            .forEach((v) => v.classList.remove("active"));
+          btn.classList.add("active");
+          document
+            .getElementById("view-" + btn.dataset.view)
+            .classList.add("active");
+          document.getElementById("modeTag").textContent = btn.dataset.view;
+        });
+      });
+
+      /* ---------------- Glossary view ---------------- */
+      let activeCat = "All";
+      let searchTerm = "";
+
+      function renderCatFilter() {
+        const wrap = document.getElementById("catFilter");
+        wrap.innerHTML = "";
+        const all = ["All", ...CATEGORIES];
+        all.forEach((cat) => {
+          const pill = document.createElement("button");
+          pill.className = "cat-pill" + (cat === activeCat ? " active" : "");
+          pill.textContent = cat;
+          pill.addEventListener("click", () => {
+            activeCat = cat;
+            renderCatFilter();
+            renderGlossary();
+          });
+          wrap.appendChild(pill);
+        });
+      }
+
+      function renderGlossary() {
+        const list = document.getElementById("glossaryList");
+        list.innerHTML = "";
+        const term = searchTerm.trim().toLowerCase();
+
+        const grouped = {};
+        TERMS.forEach((t) => {
+          if (activeCat !== "All" && t.category !== activeCat) return;
+          if (term) {
+            const hay = (
+              t.name +
+              " " +
+              t.desc +
+              " " +
+              t.scenario
+            ).toLowerCase();
+            if (!hay.includes(term)) return;
+          }
+          (grouped[t.category] = grouped[t.category] || []).push(t);
+        });
+
+        const catsToShow = CATEGORIES.filter(
+          (c) => grouped[c] && grouped[c].length,
+        );
+        if (catsToShow.length === 0) {
+          list.innerHTML =
+            '<p style="color:var(--text-dim); font-family:var(--sans); font-size:14px;">No terms match that search.</p>';
+          return;
+        }
+
+        catsToShow.forEach((cat) => {
+          const group = document.createElement("div");
+          group.className = "cat-group";
+          const h2 = document.createElement("h2");
+          h2.textContent = cat;
+          group.appendChild(h2);
+          grouped[cat].forEach((t) => {
+            const card = document.createElement("div");
+            card.className = "card";
+            const freqLabel =
+              t.seen_count > 1 ? `asked ${t.seen_count}×` : "asked once";
+            card.innerHTML = `
+        <div class="name-row"><span class="name">${t.name}</span><span class="freq">${freqLabel}</span></div>
+        <div class="desc">${t.desc}</div>
+        <div class="trick"><span class="icon">TRICK</span><span>${t.trick}</span></div>
+        <div class="scenario"><b>Q${t.scenario_qnum}:</b> ${t.scenario}</div>
+      `;
+            group.appendChild(card);
+          });
+          list.appendChild(group);
+        });
+      }
+
+      document.getElementById("searchBox").addEventListener("input", (e) => {
+        searchTerm = e.target.value;
+        renderGlossary();
+      });
+
+      renderCatFilter();
+      renderGlossary();
+
+      /* ---------------- Quiz ---------------- */
+      function shuffle(arr) {
+        const a = arr.slice();
+        for (let i = a.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [a[i], a[j]] = [a[j], a[i]];
+        }
+        return a;
+      }
+
+      let selectedLen = "25";
+      document.querySelectorAll("#lengthGrid .choice-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          document
+            .querySelectorAll("#lengthGrid .choice-btn")
+            .forEach((b) => b.classList.remove("selected"));
+          btn.classList.add("selected");
+          selectedLen = btn.dataset.len;
+        });
+      });
+      document
+        .querySelector('#lengthGrid .choice-btn[data-len="25"]')
+        .classList.add("selected");
+
+      let session = [];
+      let qIdx = 0;
+      let score = 0;
+      let missed = [];
+      let answered = false;
+      let selectedAnswer = null;
+
+      function buildQuestion(t) {
+        let pool = TERMS.filter(
+          (x) => x.id !== t.id && x.category === t.category,
+        );
+        if (pool.length < 3) {
+          pool = pool.concat(
+            TERMS.filter((x) => x.id !== t.id && x.category !== t.category),
+          );
+        }
+        const distractors = shuffle(pool)
+          .slice(0, 3)
+          .map((x) => x.name);
+        const options = shuffle([t.name, ...distractors]);
+        return { term: t, prompt: t.desc, options, correct: t.name };
+      }
+
+      document.getElementById("startQuizBtn").addEventListener("click", () => {
+        let pool = shuffle(TERMS);
+        if (selectedLen !== "all") {
+          pool = pool.slice(0, parseInt(selectedLen, 10));
+        }
+        session = pool.map(buildQuestion);
+        qIdx = 0;
+        score = 0;
+        missed = [];
+
+        document.getElementById("quiz-start").classList.add("hidden");
+        document.getElementById("quiz-end").classList.add("hidden");
+        document.getElementById("quiz-play").classList.remove("hidden");
+        renderQuizQuestion();
+      });
+
+      document.getElementById("quitQuizBtn").addEventListener("click", () => {
+        if (confirm("Exit this quiz? Your progress will be lost.")) {
+          document.getElementById("quiz-play").classList.add("hidden");
+          document.getElementById("quiz-start").classList.remove("hidden");
+        }
+      });
+
+      document
+        .getElementById("restartQuizBtn")
+        .addEventListener("click", () => {
+          document.getElementById("quiz-end").classList.add("hidden");
+          document.getElementById("quiz-start").classList.remove("hidden");
+        });
+
+      function renderQuizQuestion() {
+        answered = false;
+        selectedAnswer = null;
+        const q = session[qIdx];
+
+        document.getElementById("qPosition").textContent =
+          `Question ${qIdx + 1} / ${session.length}`;
+        document.getElementById("liveScore").textContent = score;
+        document.getElementById("progressFill").style.width =
+          `${(qIdx / session.length) * 100}%`;
+        document.getElementById("qCategory").textContent = q.term.category;
+        document.getElementById("qText").textContent =
+          `Which term: ${q.prompt}`;
+
+        const wrap = document.getElementById("optionsWrap");
+        wrap.innerHTML = "";
+        q.options.forEach((name) => {
+          const div = document.createElement("div");
+          div.className = "opt";
+          div.dataset.name = name;
+          div.textContent = name;
+          div.addEventListener("click", () => selectQuizOption(name));
+          wrap.appendChild(div);
+        });
+
+        document.getElementById("feedbackBox").className = "feedback";
+        document.getElementById("feedbackBox").textContent = "";
+        document.getElementById("submitQuizBtn").textContent = "Submit answer";
+      }
+
+      function selectQuizOption(name) {
+        if (answered) return;
+        document
+          .querySelectorAll("#optionsWrap .opt")
+          .forEach((o) => o.classList.remove("marked"));
+        selectedAnswer = name;
+        document
+          .querySelector(`#optionsWrap .opt[data-name="${CSS.escape(name)}"]`)
+          .classList.add("marked");
+      }
+
+      document.getElementById("submitQuizBtn").addEventListener("click", () => {
+        if (!answered) {
+          submitQuizAnswer();
+        } else {
+          nextQuizQuestion();
+        }
+      });
+
+      function submitQuizAnswer() {
+        const q = session[qIdx];
+        if (!selectedAnswer) {
+          alert("Pick an answer before submitting.");
+          return;
+        }
+        answered = true;
+        const isCorrect = selectedAnswer === q.correct;
+
+        document.querySelectorAll("#optionsWrap .opt").forEach((o) => {
+          o.classList.add("disabled");
+          if (o.dataset.name === q.correct) o.classList.add("correct");
+          else if (o.dataset.name === selectedAnswer)
+            o.classList.add("incorrect");
+        });
+
+        const fb = document.getElementById("feedbackBox");
+        if (isCorrect) {
+          score++;
+          fb.innerHTML = `Correct — ${q.correct}.<span class="trick-note">${q.term.trick}</span>`;
+          fb.className = "feedback show right";
+        } else {
+          fb.innerHTML = `Not quite — that's ${q.correct}.<span class="trick-note">${q.term.trick}</span>`;
+          fb.className = "feedback show wrong";
+          missed.push({
+            name: q.correct,
+            desc: q.prompt,
+            yours: selectedAnswer,
+            trick: q.term.trick,
+          });
+        }
+
+        document.getElementById("liveScore").textContent = score;
+        document.getElementById("submitQuizBtn").textContent =
+          qIdx === session.length - 1 ? "See results" : "Next question";
+      }
+
+      function nextQuizQuestion() {
+        qIdx++;
+        if (qIdx >= session.length) {
+          showQuizResults();
+        } else {
+          renderQuizQuestion();
+        }
+      }
+
+      function showQuizResults() {
+        document.getElementById("progressFill").style.width = "100%";
+        document.getElementById("quiz-play").classList.add("hidden");
+        document.getElementById("quiz-end").classList.remove("hidden");
+
+        const pct = Math.round((score / session.length) * 100);
+        document.getElementById("finalPct").textContent = pct + "%";
+        document.getElementById("finalFrac").textContent =
+          `${score} / ${session.length} correct`;
+
+        let verdict;
+        if (pct >= 90) verdict = "The glossary is locked in.";
+        else if (pct >= 75)
+          verdict =
+            "Solid — a quick re-read of the misses below and you're set.";
+        else if (pct >= 50)
+          verdict = "Getting there. Revisit the tricks for the missed terms.";
+        else verdict = "Worth a slower pass through the glossary tab first.";
+        document.getElementById("finalVerdict").textContent = verdict;
+
+        const reviewPanel = document.getElementById("reviewPanel");
+        const reviewList = document.getElementById("reviewList");
+        reviewList.innerHTML = "";
+        if (missed.length === 0) {
+          reviewPanel.classList.add("hidden");
+        } else {
+          reviewPanel.classList.remove("hidden");
+          missed.forEach((m) => {
+            const div = document.createElement("div");
+            div.className = "card";
+            div.innerHTML = `<div class="name-row"><span class="name">${m.name}</span></div>
+        <div class="desc">${m.desc}</div>
+        <div class="scenario">Your answer: ${m.yours}</div>`;
+            reviewList.appendChild(div);
+          });
+        }
+      }
+    </script>
+  </body>
+</html>
