@@ -291,11 +291,31 @@
         cursor: pointer;
         text-align: left;
         font-size: 13.5px;
+        position: relative;
       }
       .choice-btn.selected {
         border-color: var(--violet);
         background: var(--violet-bg);
         color: var(--violet);
+      }
+      .choice-btn.completed {
+        border-color: var(--green);
+      }
+      .choice-btn .check-badge {
+        display: block;
+        margin-top: 4px;
+        color: var(--green);
+        font-family: var(--mono);
+        font-size: 10.5px;
+      }
+      .section-note {
+        font-family: var(--sans);
+        font-size: 13px;
+        color: var(--green);
+        background: var(--green-bg);
+        border-radius: 4px;
+        padding: 10px 14px;
+        margin: 4px 0 16px;
       }
 
       .btn-primary {
@@ -453,6 +473,16 @@
         font-size: 19px;
         margin: 16px 0 0;
       }
+      .result-hero .completed-tag {
+        display: inline-block;
+        margin-top: 14px;
+        font-family: var(--mono);
+        font-size: 12px;
+        color: var(--green);
+        background: var(--green-bg);
+        padding: 6px 12px;
+        border-radius: 20px;
+      }
 
       .hidden {
         display: none !important;
@@ -473,9 +503,6 @@
           CLF<span>·</span>C02
           <span style="color: var(--text)">Exam Glossary</span>
         </div>
-        <button class="choice-btn" data-len="10">
-          <a class="lin" href="index.html">Quiz Study</a>
-        </button>
         <div class="tag" id="modeTag">glossary</div>
       </div>
 
@@ -539,6 +566,7 @@
             <div id="sectionPicker" class="hidden">
               <h2 style="margin-top: 18px">CATEGORY</h2>
               <div class="option-grid" id="categoryGrid"></div>
+              <div id="sectionCompleteNote" class="section-note hidden"></div>
             </div>
 
             <div id="lengthPicker">
@@ -588,6 +616,9 @@
             <div class="big-score" id="finalPct">0%</div>
             <div class="of" id="finalFrac">0 / 0 correct</div>
             <h2 id="finalVerdict"></h2>
+            <div class="completed-tag hidden" id="completedTag">
+              ✓ Section completed
+            </div>
           </div>
           <div class="panel" id="reviewPanel">
             <h2>MISSED TERMS</h2>
@@ -2310,6 +2341,46 @@
       let selectedScope = "all";
       let selectedCategory = CATEGORIES[0];
 
+      /* ---------------- Section-completion tracking (persistent storage) ---------------- */
+      let completedSections = [];
+
+      async function loadCompletedSections() {
+        try {
+          const res = localStorage.getItem("completed-sections");
+          return res ? JSON.parse(res) : [];
+        } catch (e) {
+          return [];
+        }
+      }
+
+      async function saveCompletedSections(arr) {
+        try {
+          localStorage.setItem("completed-sections", JSON.stringify(arr));
+        } catch (e) {
+          console.error("Storage error", e);
+        }
+      }
+
+      function markSectionCompletedLocally(cat) {
+        if (!completedSections.includes(cat)) {
+          completedSections.push(cat);
+          saveCompletedSections(completedSections);
+        }
+      }
+
+      function updateSectionCompleteNote() {
+        const note = document.getElementById("sectionCompleteNote");
+        if (
+          selectedScope === "section" &&
+          completedSections.includes(selectedCategory)
+        ) {
+          note.textContent = `✓ You've already completed "${selectedCategory}". Starting again will just run it once more — nothing is lost either way.`;
+          note.classList.remove("hidden");
+        } else {
+          note.classList.add("hidden");
+        }
+      }
+
       document.querySelectorAll("#lengthGrid .choice-btn").forEach((btn) => {
         btn.addEventListener("click", () => {
           document
@@ -2338,6 +2409,7 @@
           document
             .getElementById("lengthPicker")
             .classList.toggle("hidden", isSection);
+          updateSectionCompleteNote();
         });
       });
       document
@@ -2350,22 +2422,35 @@
         grid.innerHTML = "";
         CATEGORIES.forEach((cat) => {
           const count = TERMS.filter((t) => t.category === cat).length;
+          const isDone = completedSections.includes(cat);
           const btn = document.createElement("button");
           btn.className =
-            "choice-btn" + (cat === selectedCategory ? " selected" : "");
+            "choice-btn" +
+            (cat === selectedCategory ? " selected" : "") +
+            (isDone ? " completed" : "");
           btn.dataset.category = cat;
-          btn.textContent = `${cat} (${count})`;
+          btn.innerHTML =
+            `${cat} (${count})` +
+            (isDone ? '<span class="check-badge">✓ Completed</span>' : "");
           btn.addEventListener("click", () => {
             document
               .querySelectorAll("#categoryGrid .choice-btn")
               .forEach((b) => b.classList.remove("selected"));
             btn.classList.add("selected");
             selectedCategory = cat;
+            updateSectionCompleteNote();
           });
           grid.appendChild(btn);
         });
       }
       renderCategoryGrid();
+
+      /* Load persisted completion state, then refresh anything that depends on it */
+      loadCompletedSections().then((arr) => {
+        completedSections = arr;
+        renderCategoryGrid();
+        updateSectionCompleteNote();
+      });
 
       let session = [];
       let qIdx = 0;
@@ -2391,12 +2476,16 @@
       }
 
       let sessionLabel = "All categories";
+      let sessionScope = "all";
+      let sessionCategory = null;
 
       document.getElementById("startQuizBtn").addEventListener("click", () => {
         let pool;
+        sessionScope = selectedScope;
         if (selectedScope === "section") {
           pool = shuffle(TERMS.filter((t) => t.category === selectedCategory));
           sessionLabel = selectedCategory;
+          sessionCategory = selectedCategory;
           if (pool.length === 0) {
             alert("No terms in that category.");
             return;
@@ -2407,6 +2496,7 @@
             pool = pool.slice(0, parseInt(selectedLen, 10));
           }
           sessionLabel = "All categories";
+          sessionCategory = null;
         }
 
         session = pool.map(buildQuestion);
@@ -2424,6 +2514,8 @@
         if (confirm("Exit this quiz? Your progress will be lost.")) {
           document.getElementById("quiz-play").classList.add("hidden");
           document.getElementById("quiz-start").classList.remove("hidden");
+          renderCategoryGrid();
+          updateSectionCompleteNote();
         }
       });
 
@@ -2432,6 +2524,8 @@
         .addEventListener("click", () => {
           document.getElementById("quiz-end").classList.add("hidden");
           document.getElementById("quiz-start").classList.remove("hidden");
+          renderCategoryGrid();
+          updateSectionCompleteNote();
         });
 
       function renderQuizQuestion() {
@@ -2549,6 +2643,14 @@
           verdict = "Getting there. Revisit the tricks for the missed terms.";
         else verdict = "Worth a slower pass through the glossary tab first.";
         document.getElementById("finalVerdict").textContent = verdict;
+
+        const completedTag = document.getElementById("completedTag");
+        if (sessionScope === "section" && sessionCategory) {
+          markSectionCompletedLocally(sessionCategory);
+          completedTag.classList.remove("hidden");
+        } else {
+          completedTag.classList.add("hidden");
+        }
 
         const reviewPanel = document.getElementById("reviewPanel");
         const reviewList = document.getElementById("reviewList");
