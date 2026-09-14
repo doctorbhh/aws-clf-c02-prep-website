@@ -464,10 +464,6 @@
         font-size: 11px;
         margin-top: 40px;
       }
-
-      .lin {
-        text-decoration: none;
-      }
     </style>
   </head>
   <body>
@@ -478,9 +474,8 @@
           <span style="color: var(--text)">Exam Glossary</span>
         </div>
         <button class="choice-btn" data-len="10">
-          <a class="lin" href="Index.html">Main Page</a>
+          <a class="lin" href="index.html">Quiz Study</a>
         </button>
-
         <div class="tag" id="modeTag">glossary</div>
       </div>
 
@@ -531,12 +526,29 @@
       <div class="view" id="view-quiz">
         <div id="quiz-start">
           <div class="panel">
-            <h2>SESSION LENGTH</h2>
-            <div class="option-grid" id="lengthGrid">
-              <button class="choice-btn" data-len="10">10 terms</button>
-              <button class="choice-btn" data-len="25">25 terms</button>
-              <button class="choice-btn" data-len="50">50 terms</button>
-              <button class="choice-btn" data-len="all">All terms</button>
+            <h2>MODE</h2>
+            <div class="option-grid" id="scopeGrid">
+              <button class="choice-btn" data-scope="all">
+                All categories mixed
+              </button>
+              <button class="choice-btn" data-scope="section">
+                One category at a time
+              </button>
+            </div>
+
+            <div id="sectionPicker" class="hidden">
+              <h2 style="margin-top: 18px">CATEGORY</h2>
+              <div class="option-grid" id="categoryGrid"></div>
+            </div>
+
+            <div id="lengthPicker">
+              <h2 style="margin-top: 18px">SESSION LENGTH</h2>
+              <div class="option-grid" id="lengthGrid">
+                <button class="choice-btn" data-len="10">10 terms</button>
+                <button class="choice-btn" data-len="25">25 terms</button>
+                <button class="choice-btn" data-len="50">50 terms</button>
+                <button class="choice-btn" data-len="all">All terms</button>
+              </div>
             </div>
           </div>
           <button class="btn-primary" id="startQuizBtn">Start quiz</button>
@@ -545,6 +557,9 @@
         <div id="quiz-play" class="hidden">
           <div class="quiz-header">
             <span id="qPosition">Question 1 / 10</span>
+            <span id="sessionLabelTag" style="color: var(--violet)"
+              >All categories</span
+            >
             <span class="score">Score: <span id="liveScore">0</span></span>
           </div>
           <div class="progress-track">
@@ -2292,6 +2307,9 @@
       }
 
       let selectedLen = "25";
+      let selectedScope = "all";
+      let selectedCategory = CATEGORIES[0];
+
       document.querySelectorAll("#lengthGrid .choice-btn").forEach((btn) => {
         btn.addEventListener("click", () => {
           document
@@ -2304,6 +2322,50 @@
       document
         .querySelector('#lengthGrid .choice-btn[data-len="25"]')
         .classList.add("selected");
+
+      /* Mode: all categories mixed vs. one category at a time */
+      document.querySelectorAll("#scopeGrid .choice-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          document
+            .querySelectorAll("#scopeGrid .choice-btn")
+            .forEach((b) => b.classList.remove("selected"));
+          btn.classList.add("selected");
+          selectedScope = btn.dataset.scope;
+          const isSection = selectedScope === "section";
+          document
+            .getElementById("sectionPicker")
+            .classList.toggle("hidden", !isSection);
+          document
+            .getElementById("lengthPicker")
+            .classList.toggle("hidden", isSection);
+        });
+      });
+      document
+        .querySelector('#scopeGrid .choice-btn[data-scope="all"]')
+        .classList.add("selected");
+
+      /* Category picker, built from the real category list + counts */
+      function renderCategoryGrid() {
+        const grid = document.getElementById("categoryGrid");
+        grid.innerHTML = "";
+        CATEGORIES.forEach((cat) => {
+          const count = TERMS.filter((t) => t.category === cat).length;
+          const btn = document.createElement("button");
+          btn.className =
+            "choice-btn" + (cat === selectedCategory ? " selected" : "");
+          btn.dataset.category = cat;
+          btn.textContent = `${cat} (${count})`;
+          btn.addEventListener("click", () => {
+            document
+              .querySelectorAll("#categoryGrid .choice-btn")
+              .forEach((b) => b.classList.remove("selected"));
+            btn.classList.add("selected");
+            selectedCategory = cat;
+          });
+          grid.appendChild(btn);
+        });
+      }
+      renderCategoryGrid();
 
       let session = [];
       let qIdx = 0;
@@ -2328,11 +2390,25 @@
         return { term: t, prompt: t.desc, options, correct: t.name };
       }
 
+      let sessionLabel = "All categories";
+
       document.getElementById("startQuizBtn").addEventListener("click", () => {
-        let pool = shuffle(TERMS);
-        if (selectedLen !== "all") {
-          pool = pool.slice(0, parseInt(selectedLen, 10));
+        let pool;
+        if (selectedScope === "section") {
+          pool = shuffle(TERMS.filter((t) => t.category === selectedCategory));
+          sessionLabel = selectedCategory;
+          if (pool.length === 0) {
+            alert("No terms in that category.");
+            return;
+          }
+        } else {
+          pool = shuffle(TERMS);
+          if (selectedLen !== "all") {
+            pool = pool.slice(0, parseInt(selectedLen, 10));
+          }
+          sessionLabel = "All categories";
         }
+
         session = pool.map(buildQuestion);
         qIdx = 0;
         score = 0;
@@ -2365,6 +2441,7 @@
 
         document.getElementById("qPosition").textContent =
           `Question ${qIdx + 1} / ${session.length}`;
+        document.getElementById("sessionLabelTag").textContent = sessionLabel;
         document.getElementById("liveScore").textContent = score;
         document.getElementById("progressFill").style.width =
           `${(qIdx / session.length) * 100}%`;
@@ -2461,10 +2538,10 @@
         const pct = Math.round((score / session.length) * 100);
         document.getElementById("finalPct").textContent = pct + "%";
         document.getElementById("finalFrac").textContent =
-          `${score} / ${session.length} correct`;
+          `${score} / ${session.length} correct — ${sessionLabel}`;
 
         let verdict;
-        if (pct >= 90) verdict = "The glossary is locked in.";
+        if (pct >= 90) verdict = "That section is locked in.";
         else if (pct >= 75)
           verdict =
             "Solid — a quick re-read of the misses below and you're set.";
