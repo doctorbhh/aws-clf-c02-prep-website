@@ -302,6 +302,30 @@
         transition: width 0.2s ease;
       }
 
+      .flag-btn {
+        background: transparent;
+        border: 1px solid var(--border);
+        color: var(--text-dim);
+        border-radius: 4px;
+        padding: 4px 10px;
+        font-size: 12px;
+        cursor: pointer;
+        font-family: var(--sans);
+        transition: all 0.15s ease;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .flag-btn:hover {
+        border-color: var(--amber-dim);
+        color: var(--text);
+      }
+      .flag-btn.flagged {
+        background: rgba(232, 163, 61, 0.15);
+        border-color: var(--amber);
+        color: var(--amber);
+      }
+
       .q-meta {
         font-family: var(--mono);
         font-size: 12px;
@@ -597,9 +621,16 @@
           <div class="progress-fill" id="progressFill" style="width: 0%"></div>
         </div>
 
-        <div class="q-meta">
-          <span id="qNumberTag">Question #1</span>
-          <span id="qTopicTag">Topic 1</span>
+        <div class="q-meta" style="align-items: center">
+          <div>
+            <span id="qNumberTag" style="margin-right: 12px"
+              >Question #1</span
+            >
+            <span id="qTopicTag" style="color: var(--text-dim)"
+              >Topic 1</span
+            >
+          </div>
+          <button id="flagBtn" class="flag-btn">⚑ Flag</button>
         </div>
         <p class="q-text" id="qText"></p>
         <div class="choose-hint" id="chooseHint"></div>
@@ -7534,6 +7565,7 @@
       let instantFeedback = true;
       let shuffleAnswers = false;
       let selectedMode = "new";
+      let flaggedThisSession = new Set();
 
       /* ---- Seen / missed progress persistence ---- */
       const PROGRESS_KEY = "clfc02_examquiz_progress_v1";
@@ -7658,6 +7690,7 @@
         idx = 0;
         score = 0;
         missed = [];
+        flaggedThisSession.clear();
 
         document.getElementById("screen-start").classList.add("hidden");
         document.getElementById("screen-quiz").classList.remove("hidden");
@@ -7676,6 +7709,22 @@
         document.getElementById("screen-start").classList.remove("hidden");
         document.getElementById("modeTag").textContent = "setup";
         refreshProgressStats();
+      });
+
+      document.getElementById("flagBtn").addEventListener("click", () => {
+        if (!session.length || idx >= session.length) return;
+        const qNum = session[idx].number;
+        const btn = document.getElementById("flagBtn");
+
+        if (flaggedThisSession.has(qNum)) {
+          flaggedThisSession.delete(qNum);
+          btn.classList.remove("flagged");
+          btn.innerHTML = "⚑ Flag";
+        } else {
+          flaggedThisSession.add(qNum);
+          btn.classList.add("flagged");
+          btn.innerHTML = "🚩 Flagged";
+        }
       });
 
       // ---- Quiz rendering ----
@@ -7698,6 +7747,15 @@
         document.getElementById("chooseHint").textContent = multi
           ? `Select ${correctSet.size} answers`
           : "Select one answer";
+
+        const flagBtn = document.getElementById("flagBtn");
+        if (flaggedThisSession.has(q.number)) {
+          flagBtn.classList.add("flagged");
+          flagBtn.innerHTML = "🚩 Flagged";
+        } else {
+          flagBtn.classList.remove("flagged");
+          flagBtn.innerHTML = "⚑ Flag";
+        }
 
         let letters = Object.keys(q.options);
         if (shuffleAnswers) letters = shuffle(letters);
@@ -7778,6 +7836,15 @@
           score++;
           fb.textContent = "Correct.";
           fb.className = "feedback show right";
+
+          if (flaggedThisSession.has(q.number)) {
+            missed.push({
+              q,
+              yours: [...selectedAnswers].join(", "),
+              right: [...correctSet].join(", "),
+              isFlagged: true,
+            });
+          }
         } else {
           fb.textContent = `Not quite — correct answer${correctSet.size > 1 ? "s are" : " is"} ${[...correctSet].join(", ")}.`;
           fb.className = "feedback show wrong";
@@ -7785,6 +7852,7 @@
             q,
             yours: [...selectedAnswers].join(", "),
             right: [...correctSet].join(", "),
+            isFlagged: flaggedThisSession.has(q.number),
           });
         }
 
@@ -7856,7 +7924,10 @@
           missed.forEach((m) => {
             const div = document.createElement("div");
             div.className = "review-item";
-            div.innerHTML = `<div class="rq">#${m.q.number} — ${m.q.question}</div>
+            const flagBadge = m.isFlagged
+              ? '<span style="color:var(--amber); margin-left: 8px;">[🚩 Flagged]</span>'
+              : "";
+            div.innerHTML = `<div class="rq">#${m.q.number} ${flagBadge} — ${m.q.question}</div>
         <div class="ra"><span class="yours">Your answer: ${m.yours}</span> &nbsp;·&nbsp; <span class="right">Correct: ${m.right}</span></div>`;
             reviewList.appendChild(div);
           });
