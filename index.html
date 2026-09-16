@@ -77,6 +77,10 @@
         font-size: 11px;
         color: var(--text-dim);
       }
+      .lin {
+        text-decoration: none;
+        color: inherit;
+      }
 
       /* ---------- Start Screen ---------- */
       .hero {
@@ -143,9 +147,7 @@
           grid-template-columns: 1fr;
         }
       }
-      .lin {
-        text-decoration: none;
-      }
+
       .choice-btn {
         font-family: var(--sans);
         background: var(--surface-2);
@@ -494,7 +496,6 @@
         <button class="choice-btn" data-len="10">
           <a class="lin" href="aws-clf-c02-study-guide.html">Study</a>
         </button>
-
         <button class="choice-btn" data-len="10">
           <a class="lin" href="aws-clf-c02-exam-glossary.html">Quiz Study</a>
         </button>
@@ -518,23 +519,35 @@
             ><span class="lab">questions loaded</span>
           </div>
           <div class="stat">
-            <span class="num">1</span><span class="lab">topic</span>
+            <span class="num" id="unseenCount">0</span
+            ><span class="lab">not yet seen</span>
           </div>
           <div class="stat">
-            <span class="num">A–F</span><span class="lab">answer choices</span>
+            <span class="num" id="missedCount">0</span
+            ><span class="lab">missed &amp; saved</span>
           </div>
         </div>
 
         <div class="panel">
-          <h2>SESSION LENGTH</h2>
-          <div class="option-grid" id="lengthGrid">
-            <button class="choice-btn" data-len="10">10 questions</button>
-            <button class="choice-btn" data-len="25">25 questions</button>
-            <button class="choice-btn" data-len="50">50 questions</button>
-            <button class="choice-btn" data-len="all">All questions</button>
+          <h2>MODE</h2>
+          <div class="option-grid" id="modeGrid">
+            <button class="choice-btn" data-mode="new">New questions</button>
+            <button class="choice-btn" data-mode="missed">
+              Review missed questions
+            </button>
           </div>
 
-          <h2>OPTIONS</h2>
+          <div id="lengthSection">
+            <h2 style="margin-top: 18px">SESSION LENGTH</h2>
+            <div class="option-grid" id="lengthGrid">
+              <button class="choice-btn" data-len="10">10 questions</button>
+              <button class="choice-btn" data-len="25">25 questions</button>
+              <button class="choice-btn" data-len="50">50 questions</button>
+              <button class="choice-btn" data-len="all">All questions</button>
+            </div>
+          </div>
+
+          <h2 style="margin-top: 18px">OPTIONS</h2>
           <div class="toggle-row">
             <span>Shuffle question order</span>
             <label class="switch"
@@ -562,6 +575,16 @@
         </div>
 
         <button class="btn-primary" id="startBtn">Start quiz</button>
+
+        <div style="margin-top: 14px">
+          <button
+            class="btn-secondary"
+            id="resetProgressBtn"
+            style="width: 100%"
+          >
+            Reset seen &amp; missed progress
+          </button>
+        </div>
       </div>
 
       <!-- QUIZ SCREEN -->
@@ -7510,6 +7533,41 @@
       let answered = false;
       let instantFeedback = true;
       let shuffleAnswers = false;
+      let selectedMode = "new";
+
+      /* ---- Seen / missed progress persistence ---- */
+      const PROGRESS_KEY = "clfc02_examquiz_progress_v1";
+      let progress = { seen: [], missed: [] };
+
+      function loadProgress() {
+        try {
+          const raw = localStorage.getItem(PROGRESS_KEY);
+          if (raw) {
+            const parsed = JSON.parse(raw);
+            progress.seen = Array.isArray(parsed.seen) ? parsed.seen : [];
+            progress.missed = Array.isArray(parsed.missed) ? parsed.missed : [];
+          }
+        } catch (e) {
+          progress = { seen: [], missed: [] };
+        }
+      }
+      function saveProgress() {
+        try {
+          localStorage.setItem(PROGRESS_KEY, JSON.stringify(progress));
+        } catch (e) {
+          /* ignore */
+        }
+      }
+      loadProgress();
+
+      function refreshProgressStats() {
+        const seenSet = new Set(progress.seen);
+        const unseen = QUESTIONS.filter((q) => !seenSet.has(q.number)).length;
+        document.getElementById("unseenCount").textContent = unseen;
+        document.getElementById("missedCount").textContent =
+          progress.missed.length;
+      }
+      refreshProgressStats();
 
       function shuffle(arr) {
         const a = arr.slice();
@@ -7535,15 +7593,67 @@
         .classList.add("selected");
       selectedLen = "25";
 
+      document.querySelectorAll("#modeGrid .choice-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          document
+            .querySelectorAll("#modeGrid .choice-btn")
+            .forEach((b) => b.classList.remove("selected"));
+          btn.classList.add("selected");
+          selectedMode = btn.dataset.mode;
+          document
+            .getElementById("lengthSection")
+            .classList.toggle("hidden", selectedMode === "missed");
+        });
+      });
+      document
+        .querySelector('#modeGrid .choice-btn[data-mode="new"]')
+        .classList.add("selected");
+
+      document
+        .getElementById("resetProgressBtn")
+        .addEventListener("click", () => {
+          if (
+            confirm(
+              "Reset all seen and missed question progress? This cannot be undone.",
+            )
+          ) {
+            progress = { seen: [], missed: [] };
+            saveProgress();
+            refreshProgressStats();
+          }
+        });
+
       document.getElementById("startBtn").addEventListener("click", () => {
         const doShuffleQ = document.getElementById("toggleShuffle").checked;
         shuffleAnswers = document.getElementById("toggleShuffleAns").checked;
         instantFeedback = document.getElementById("toggleInstant").checked;
 
-        let pool = doShuffleQ ? shuffle(QUESTIONS) : QUESTIONS.slice();
-        if (selectedLen !== "all") {
-          pool = pool.slice(0, parseInt(selectedLen, 10));
+        let pool;
+        if (selectedMode === "missed") {
+          const missedSet = new Set(progress.missed);
+          pool = QUESTIONS.filter((q) => missedSet.has(q.number));
+          pool = doShuffleQ ? shuffle(pool) : pool;
+          if (pool.length === 0) {
+            alert(
+              'You don\'t have any missed questions saved yet — get one wrong in "New questions" mode first.',
+            );
+            return;
+          }
+        } else {
+          const seenSet = new Set(progress.seen);
+          let unseen = QUESTIONS.filter((q) => !seenSet.has(q.number));
+          if (unseen.length === 0) {
+            alert(
+              'You\'ve gone through every question in the bank. Reset progress below to start a fresh cycle, or switch to "Review missed questions."',
+            );
+            return;
+          }
+          pool = doShuffleQ ? shuffle(unseen) : unseen;
+          if (selectedLen !== "all") {
+            pool = pool.slice(0, parseInt(selectedLen, 10));
+          }
         }
+
         session = pool;
         idx = 0;
         score = 0;
@@ -7565,6 +7675,7 @@
         document.getElementById("screen-end").classList.add("hidden");
         document.getElementById("screen-start").classList.remove("hidden");
         document.getElementById("modeTag").textContent = "setup";
+        refreshProgressStats();
       });
 
       // ---- Quiz rendering ----
@@ -7701,10 +7812,30 @@
         document.getElementById("screen-end").classList.remove("hidden");
         document.getElementById("modeTag").textContent = "complete";
 
+        // Persist seen/missed progress for this session
+        const missedNumbersThisSession = new Set(missed.map((m) => m.q.number));
+        const seenSet = new Set(progress.seen);
+        const missedSet = new Set(progress.missed);
+        session.forEach((q) => {
+          seenSet.add(q.number);
+          if (missedNumbersThisSession.has(q.number)) {
+            missedSet.add(q.number);
+          } else {
+            missedSet.delete(q.number);
+          }
+        });
+        progress.seen = [...seenSet];
+        progress.missed = [...missedSet];
+        saveProgress();
+
         const pct = Math.round((score / session.length) * 100);
+        const modeLabel =
+          selectedMode === "missed"
+            ? "missed-question review"
+            : "new questions";
         document.getElementById("finalPct").textContent = pct + "%";
         document.getElementById("finalFrac").textContent =
-          `${score} / ${session.length} correct`;
+          `${score} / ${session.length} correct — ${modeLabel}`;
 
         let verdict;
         if (pct >= 90) verdict = "Exam-ready form.";
